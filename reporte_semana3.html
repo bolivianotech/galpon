@@ -1,0 +1,252 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+.report-header {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.report-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+.report-subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+.report-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: var(--border-radius-md);
+  background: #E6F1FB;
+  color: #185FA5;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  padding: 1rem 1.25rem;
+}
+.metric-card {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+.metric-value {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+.metric-label {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+.metric-value.green { color: #3B6D11; }
+.metric-value.amber { color: #854F0B; }
+.metric-value.blue  { color: #185FA5; }
+.metric-value.gray  { color: #5F5E5A; }
+.metric-value.red   { color: #A32D2D; }
+
+.table-wrap {
+  padding: 0 1.25rem 1.25rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+thead th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+tbody tr {
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--color-background-secondary); }
+tbody td {
+  padding: 0.6rem 0.75rem;
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+.col-name  { width: 16%; font-weight: 500; }
+.col-total { width: 10%; text-align: center; }
+.col-comp  { width: 10%; text-align: center; }
+.col-proc  { width: 10%; text-align: center; }
+.col-noinit{ width: 10%; text-align: center; }
+.col-pct   { width: 44%; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.badge-green  { background: #EAF3DE; color: #3B6D11; }
+.badge-amber  { background: #FAEEDA; color: #854F0B; }
+.badge-red    { background: #FCEBEB; color: #A32D2D; }
+.badge-gray   { background: #F1EFE8; color: #5F5E5A; }
+
+.progress-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bar-bg {
+  flex: 1;
+  height: 8px;
+  background: var(--color-background-secondary);
+  border-radius: 99px;
+  overflow: hidden;
+  border: 0.5px solid var(--color-border-tertiary);
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+.bar-pct-text {
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 32px;
+  text-align: right;
+  color: var(--color-text-secondary);
+}
+
+.section-divider {
+  padding: 0.75rem 1.25rem 0.25rem;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-tertiary);
+}
+</style>
+
+<div style="background: var(--color-background-primary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary);">
+
+  <div class="report-header">
+    <div>
+      <div class="report-title">Reporte de desempeño — Equipo Hardware</div>
+      <div class="report-subtitle">Nexus Patio Tech · Galpón · Semana 3, Marzo 2026</div>
+    </div>
+    <span class="report-badge">17 – 21 Mar 2026</span>
+  </div>
+
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-value blue">96</div>
+      <div class="metric-label">Tareas totales</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value green">67</div>
+      <div class="metric-label">Completadas</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value amber">28</div>
+      <div class="metric-label">En proceso</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value red">1</div>
+      <div class="metric-label">No iniciadas</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value green">70%</div>
+      <div class="metric-label">Cumplimiento global</div>
+    </div>
+  </div>
+
+  <div class="section-divider">Detalle por responsable</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-name">Responsable</th>
+          <th class="col-total">Total</th>
+          <th class="col-comp">Comp.</th>
+          <th class="col-proc">En proc.</th>
+          <th class="col-noinit">No inic.</th>
+          <th class="col-pct">Cumplimiento</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const people = [
+  { name: "Mauricio",  total: 7,  comp: 7,  proc: 0, noinit: 0 },
+  { name: "Pedro",     total: 6,  comp: 6,  proc: 0, noinit: 0 },
+  { name: "Wilber",    total: 6,  comp: 5,  proc: 1, noinit: 0 },
+  { name: "Cristian",  total: 20, comp: 16, proc: 4, noinit: 0 },
+  { name: "Douglas",   total: 12, comp: 9,  proc: 3, noinit: 0 },
+  { name: "Ronny",     total: 9,  comp: 6,  proc: 3, noinit: 0 },
+  { name: "Abner",     total: 6,  comp: 4,  proc: 2, noinit: 0 },
+  { name: "Octavio",   total: 9,  comp: 6,  proc: 2, noinit: 1 },
+  { name: "Javier",    total: 10, comp: 6,  proc: 4, noinit: 0 },
+  { name: "Emanuel",   total: 9,  comp: 5,  proc: 4, noinit: 0 },
+  { name: "Ariel",     total: 6,  comp: 3,  proc: 3, noinit: 0 },
+  { name: "Diogo",     total: 8,  comp: 2,  proc: 6, noinit: 0 },
+];
+
+people.sort((a, b) => (b.comp / b.total) - (a.comp / a.total));
+
+function badgeClass(pct) {
+  if (pct >= 80) return 'badge-green';
+  if (pct >= 50) return 'badge-amber';
+  return 'badge-red';
+}
+function barColor(pct) {
+  if (pct >= 80) return '#639922';
+  if (pct >= 50) return '#BA7517';
+  return '#E24B4A';
+}
+
+const tbody = document.getElementById('tableBody');
+people.forEach(p => {
+  const pct = Math.round(p.comp / p.total * 100);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="col-name">${p.name}</td>
+    <td class="col-total">${p.total}</td>
+    <td class="col-comp"><span class="badge badge-green">${p.comp}</span></td>
+    <td class="col-proc"><span class="badge badge-amber">${p.proc}</span></td>
+    <td class="col-noinit"><span class="badge ${p.noinit > 0 ? 'badge-red' : 'badge-gray'}">${p.noinit}</span></td>
+    <td class="col-pct">
+      <div class="progress-bar-wrap">
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: ${pct}%; background: ${barColor(pct)};"></div>
+        </div>
+        <span class="bar-pct-text">${pct}%</span>
+      </div>
+    </td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
