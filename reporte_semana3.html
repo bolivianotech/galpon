@@ -6,37 +6,41 @@
 <title>Reporte Semana 3 — Hardware Nexus</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f5f5f3;
-    min-height: 100vh;
-    padding: 1.5rem 1rem;
-    color: #1a1a18;
+    background: #f5f5f3; min-height: 100vh; padding: 1.5rem 1rem; color: #1a1a18;
+  }
+  .container {
+    max-width: 900px; margin: 0 auto; background: #fff;
+    border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); overflow: hidden;
   }
 
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 14px;
-    border: 1px solid rgba(0,0,0,0.08);
-    overflow: hidden;
+  /* ── EXPORT BTN ── */
+  .export-bar {
+    padding: 0.75rem 1.25rem;
+    background: #fafaf8; border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: flex; justify-content: flex-end; align-items: center; gap: 10px;
   }
+  .btn-pdf {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 16px; border-radius: 8px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 700; font-family: inherit;
+    background: #185FA5; color: #fff; transition: background .15s, transform .1s;
+  }
+  .btn-pdf:hover  { background: #0C447C; }
+  .btn-pdf:active { transform: scale(.97); }
+  .btn-pdf svg { width:15px; height:15px; fill:currentColor; flex-shrink:0; }
+  .btn-pdf.loading { background:#5F5E5A; cursor:wait; }
 
   /* ── HEADER ── */
   .report-header {
-    padding: 1.25rem 1.25rem 1rem;
-    border-bottom: 1px solid rgba(0,0,0,0.07);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 8px;
+    padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 8px;
   }
-  .report-title   { font-size: 18px; font-weight: 700; color: #1a1a18; line-height: 1.3; }
-  .report-subtitle{ font-size: 12px; color: #6b6b67; margin-top: 3px; }
-  .report-badge   {
+  .report-title    { font-size: 18px; font-weight: 700; color: #1a1a18; line-height: 1.3; }
+  .report-subtitle { font-size: 12px; color: #6b6b67; margin-top: 3px; }
+  .report-badge    {
     font-size: 11px; padding: 4px 10px; border-radius: 8px;
     background: #E6F1FB; color: #185FA5; font-weight: 700;
     white-space: nowrap; flex-shrink: 0; align-self: flex-start;
@@ -44,197 +48,133 @@
 
   /* ── METRICS ── */
   .metrics-row {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 6px;
-    padding: 0.875rem 1.25rem;
-    background: #fafaf8;
-    border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+    gap: 6px; padding: .875rem 1.25rem;
+    background: #fafaf8; border-bottom: 1px solid rgba(0,0,0,0.07);
   }
   .metric-card {
-    background: #fff; border-radius: 10px;
-    border: 1px solid rgba(0,0,0,0.07);
-    padding: 0.7rem 0.4rem; text-align: center;
+    background:#fff; border-radius:10px; border:1px solid rgba(0,0,0,.07);
+    padding:.7rem .4rem; text-align:center;
   }
-  .metric-value { font-size: 22px; font-weight: 700; line-height: 1.1; }
-  .metric-label { font-size: 10px; color: #6b6b67; margin-top: 4px; line-height: 1.3; }
-  .mv-blue  { color: #185FA5; }
-  .mv-green { color: #3B6D11; }
-  .mv-amber { color: #854F0B; }
-  .mv-red   { color: #A32D2D; }
+  .metric-value { font-size:22px; font-weight:700; line-height:1.1; }
+  .metric-label { font-size:10px; color:#6b6b67; margin-top:4px; line-height:1.3; }
+  .mv-blue{color:#185FA5} .mv-green{color:#3B6D11} .mv-amber{color:#854F0B} .mv-red{color:#A32D2D}
 
   /* ── SECTION LABEL ── */
   .section-label {
-    padding: 0.9rem 1.25rem 0.35rem;
-    font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.08em; color: #9b9b97;
+    padding:.9rem 1.25rem .35rem; font-size:10px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em; color:#9b9b97;
   }
 
-  /* ── SUMMARY — desktop table ── */
-  .table-wrap { padding: 0 1.25rem 1.25rem; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  /* ── DESKTOP TABLE ── */
+  .table-wrap { padding: 0 1.25rem 1.25rem; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
   thead th {
-    text-align: left; font-weight: 700; font-size: 10px; color: #6b6b67;
-    padding: 0.45rem 0.7rem; border-bottom: 1px solid rgba(0,0,0,0.08);
-    text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
+    text-align:left; font-weight:700; font-size:10px; color:#6b6b67;
+    padding:.45rem .7rem; border-bottom:1px solid rgba(0,0,0,.08);
+    text-transform:uppercase; letter-spacing:.05em; white-space:nowrap;
   }
-  tbody tr { border-bottom: 1px solid rgba(0,0,0,0.05); }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: #fafaf8; }
-  tbody td { padding: 0.6rem 0.7rem; vertical-align: middle; }
+  tbody tr { border-bottom:1px solid rgba(0,0,0,.05); }
+  tbody tr:last-child { border-bottom:none; }
+  tbody tr:hover { background:#fafaf8; }
+  tbody td { padding:.6rem .7rem; vertical-align:middle; }
 
   .badge {
-    display: inline-block; padding: 2px 8px; border-radius: 99px;
-    font-size: 11px; font-weight: 700; line-height: 1.6;
+    display:inline-block; padding:2px 8px; border-radius:99px;
+    font-size:11px; font-weight:700; line-height:1.6;
   }
-  .bg-green { background: #EAF3DE; color: #3B6D11; }
-  .bg-amber { background: #FAEEDA; color: #854F0B; }
-  .bg-red   { background: #FCEBEB; color: #A32D2D; }
-  .bg-gray  { background: #F1EFE8; color: #5F5E5A; }
+  .bg-green{background:#EAF3DE;color:#3B6D11} .bg-amber{background:#FAEEDA;color:#854F0B}
+  .bg-red  {background:#FCEBEB;color:#A32D2D} .bg-gray {background:#F1EFE8;color:#5F5E5A}
 
-  .bar-wrap { display: flex; align-items: center; gap: 6px; }
-  .bar-bg   { flex: 1; height: 7px; background: #f0efeb; border-radius: 99px; overflow: hidden; min-width: 40px; }
-  .bar-fill { height: 100%; border-radius: 99px; }
-  .bar-pct  { font-size: 12px; font-weight: 700; min-width: 32px; text-align: right; color: #6b6b67; }
+  .bar-wrap { display:flex; align-items:center; gap:6px; }
+  .bar-bg   { flex:1; height:7px; background:#f0efeb; border-radius:99px; overflow:hidden; min-width:40px; }
+  .bar-fill { height:100%; border-radius:99px; }
+  .bar-pct  { font-size:12px; font-weight:700; min-width:32px; text-align:right; color:#6b6b67; }
 
-  /* ── SUMMARY — mobile card list (hidden on desktop) ── */
-  .summary-cards { display: none; padding: 0 1.25rem 1.25rem; flex-direction: column; gap: 6px; }
-  .sc-item {
-    background: #fafaf8; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06);
-    padding: 0.75rem 0.875rem;
-  }
-  .sc-top {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
-  }
-  .sc-name { font-size: 14px; font-weight: 700; color: #1a1a18; }
-  .sc-pct  {
-    font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 99px;
-  }
-  .sc-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
-  .sc-pill  {
-    font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600;
-    display: flex; align-items: center; gap: 3px;
-  }
-  .sc-pill span { font-size: 10px; color: inherit; opacity: 0.7; }
-  .sc-bar-wrap { display: flex; align-items: center; gap: 8px; }
-  .sc-bar-bg   { flex: 1; height: 6px; background: #e8e7e3; border-radius: 99px; overflow: hidden; }
-  .sc-bar-fill { height: 100%; border-radius: 99px; }
+  /* ── MOBILE CARDS ── */
+  .summary-cards { display:none; padding:0 1.25rem 1.25rem; flex-direction:column; gap:6px; }
+  .sc-item { background:#fafaf8; border-radius:10px; border:1px solid rgba(0,0,0,.06); padding:.75rem .875rem; }
+  .sc-top  { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .sc-name { font-size:14px; font-weight:700; color:#1a1a18; }
+  .sc-pct  { font-size:13px; font-weight:700; padding:2px 10px; border-radius:99px; }
+  .sc-pills{ display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
+  .sc-pill { font-size:11px; padding:2px 8px; border-radius:99px; font-weight:600; display:flex; align-items:center; gap:3px; }
+  .sc-pill span{ font-size:10px; color:inherit; opacity:.7; }
+  .sc-bar-wrap{ display:flex; align-items:center; gap:8px; }
+  .sc-bar-bg  { flex:1; height:6px; background:#e8e7e3; border-radius:99px; overflow:hidden; }
+  .sc-bar-fill{ height:100%; border-radius:99px; }
 
   /* ── DETAIL GRID ── */
   .detail-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 1px;
-    background: rgba(0,0,0,0.06);
-    border-top: 1px solid rgba(0,0,0,0.07);
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+    gap:1px; background:rgba(0,0,0,.06); border-top:1px solid rgba(0,0,0,.07);
   }
-  .person-block { background: #fff; padding: 1rem 1.125rem; }
-  .person-header {
-    display: flex; align-items: center;
-    justify-content: space-between; margin-bottom: 0.7rem;
+  .person-block { background:#fff; padding:1rem 1.125rem; }
+  .person-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.7rem; }
+  .person-name  { font-size:14px; font-weight:700; color:#1a1a18; display:flex; align-items:center; gap:8px; }
+  .person-avatar{
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:800; flex-shrink:0;
   }
-  .person-name {
-    font-size: 14px; font-weight: 700; color: #1a1a18;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .person-avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 800; flex-shrink: 0;
-  }
-  .person-pct-badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-
-  .task-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .person-pct-badge{ font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px; }
+  .task-list { list-style:none; display:flex; flex-direction:column; gap:5px; }
   .task-item {
-    display: flex; align-items: flex-start; gap: 8px;
-    padding: 7px 9px; border-radius: 8px;
-    background: #fafaf8; border: 1px solid rgba(0,0,0,0.05);
+    display:flex; align-items:flex-start; gap:8px; padding:7px 9px;
+    border-radius:8px; background:#fafaf8; border:1px solid rgba(0,0,0,.05);
   }
-  .task-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    flex-shrink: 0; margin-top: 5px;
-  }
-  .task-body { flex: 1; min-width: 0; }
-  .task-name {
-    font-size: 12px; color: #1a1a18; line-height: 1.4;
-    word-break: break-word;
-  }
-  .task-name.done { text-decoration: line-through; color: #9b9b97; }
-  .task-meta {
-    display: flex; align-items: center; gap: 5px;
-    margin-top: 3px; flex-wrap: wrap;
-  }
-  .task-avance { font-size: 11px; font-weight: 700; }
-  .task-fecha  { font-size: 11px; color: #9b9b97; }
-  .task-state-badge {
-    font-size: 10px; padding: 1px 6px; border-radius: 99px; font-weight: 700;
-  }
-  .task-detalle {
-    font-size: 11px; color: #6b6b67; margin-top: 3px; font-style: italic;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  .task-dot  { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .task-body { flex:1; min-width:0; }
+  .task-name { font-size:12px; color:#1a1a18; line-height:1.4; word-break:break-word; }
+  .task-name.done{ text-decoration:line-through; color:#9b9b97; }
+  .task-meta { display:flex; align-items:center; gap:5px; margin-top:3px; flex-wrap:wrap; }
+  .task-avance { font-size:11px; font-weight:700; }
+  .task-fecha  { font-size:11px; color:#9b9b97; }
+  .task-state-badge{ font-size:10px; padding:1px 6px; border-radius:99px; font-weight:700; }
+  .task-detalle{
+    font-size:11px; color:#6b6b67; margin-top:3px; font-style:italic;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
   }
 
   /* ── FOOTER ── */
   .footer {
-    padding: 0.65rem 1.25rem;
-    font-size: 11px; color: #9b9b97;
-    border-top: 1px solid rgba(0,0,0,0.07);
-    background: #fafaf8;
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;
+    padding:.65rem 1.25rem; font-size:11px; color:#9b9b97;
+    border-top:1px solid rgba(0,0,0,.07); background:#fafaf8;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;
   }
 
-  /* ══════════════════════════════
-     RESPONSIVE BREAKPOINTS
-  ══════════════════════════════ */
-
-  /* Tablet: 5-col metrics → 3+2 */
-  @media (max-width: 600px) {
-    body { padding: 0.75rem 0.5rem; }
-
-    .report-header { padding: 1rem; }
-    .report-title  { font-size: 16px; }
-
-    /* metrics: 3 on top, 2 centered below */
-    .metrics-row {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      padding: 0.75rem 1rem;
-    }
-    .metric-card:nth-child(4),
-    .metric-card:nth-child(5) {
-      grid-column: span 1;
-    }
-    /* Reflow last two to a 2-col sub-row */
-    .metrics-row {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-    .metric-card:nth-child(1) { grid-column: 1 / 3; }
-    .metric-card:nth-child(2) { grid-column: 3 / 5; }
-    .metric-card:nth-child(3) { grid-column: 5 / 7; }
-    .metric-card:nth-child(4) { grid-column: 1 / 4; }
-    .metric-card:nth-child(5) { grid-column: 4 / 7; }
-
-    /* Hide desktop table, show card list */
-    .table-wrap    { display: none; }
-    .summary-cards { display: flex; }
-
-    /* Detail: single column */
-    .detail-grid   { grid-template-columns: 1fr; }
-
-    .section-label { padding: 0.75rem 1rem 0.3rem; }
-    .table-wrap    { padding: 0 1rem 1rem; }
-    .footer        { padding: 0.65rem 1rem; }
+  /* ── RESPONSIVE ── */
+  @media (max-width:600px) {
+    body { padding:.75rem .5rem; }
+    .report-header { padding:1rem; }
+    .report-title  { font-size:16px; }
+    .metrics-row   { grid-template-columns:repeat(6,minmax(0,1fr)); padding:.75rem 1rem; }
+    .metric-card:nth-child(1){ grid-column:1/3; }
+    .metric-card:nth-child(2){ grid-column:3/5; }
+    .metric-card:nth-child(3){ grid-column:5/7; }
+    .metric-card:nth-child(4){ grid-column:1/4; }
+    .metric-card:nth-child(5){ grid-column:4/7; }
+    .table-wrap    { display:none; }
+    .summary-cards { display:flex; }
+    .detail-grid   { grid-template-columns:1fr; }
+    .section-label { padding:.75rem 1rem .3rem; }
+    .footer        { padding:.65rem 1rem; }
   }
-
-  /* Very small phones */
-  @media (max-width: 380px) {
-    .metric-value { font-size: 18px; }
-    .metric-label { font-size: 9px; }
-    .report-title { font-size: 15px; }
+  @media (max-width:380px) {
+    .metric-value{ font-size:18px; } .metric-label{ font-size:9px; } .report-title{ font-size:15px; }
   }
 </style>
 </head>
 <body>
 <div class="container">
+
+  <!-- EXPORT BAR -->
+  <div class="export-bar">
+    <button class="btn-pdf" id="btnPdf" onclick="exportPDF()">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8.5 17.5v-5h1.25c.97 0 1.75.78 1.75 1.75S10.72 16 9.75 16H9.5v1.5H8.5zm3.75-3.25c0 1.52-1.12 2.75-2.5 2.75H7.5v-5.5H9.75c1.38 0 2.5 1.23 2.5 2.75zm4.25 3.25h-1v-2h-1.5v2h-1v-5h1v2h1.5v-2h1v5z"/></svg>
+      Descargar PDF
+    </button>
+  </div>
 
   <!-- HEADER -->
   <div class="report-header">
@@ -277,8 +217,8 @@
   <!-- MOBILE CARD LIST -->
   <div class="summary-cards" id="summaryCards"></div>
 
-  <!-- DETAIL SECTION -->
-  <div class="section-label" style="padding-top:1.1rem; border-top:1px solid rgba(0,0,0,0.07);">Detalle de tareas por responsable</div>
+  <!-- DETAIL -->
+  <div class="section-label" style="padding-top:1.1rem;border-top:1px solid rgba(0,0,0,.07);">Detalle de tareas por responsable</div>
   <div class="detail-grid" id="detailGrid"></div>
 
   <!-- FOOTER -->
@@ -286,30 +226,36 @@
     <span>Fuente: Notion — Seguimiento Objetivos Semana 3</span>
     <span>Generado: 22 mar 2026</span>
   </div>
-
 </div>
+
+<!-- jsPDF (UMD) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
 const summary = [
-  { name:"Mauricio", total:7,  comp:7,  proc:0, noinit:0 },
-  { name:"Pedro",    total:6,  comp:6,  proc:0, noinit:0 },
-  { name:"Wilber",   total:6,  comp:5,  proc:1, noinit:0 },
-  { name:"Cristian", total:20, comp:16, proc:4, noinit:0 },
-  { name:"Douglas",  total:12, comp:9,  proc:3, noinit:0 },
-  { name:"Ronny",    total:9,  comp:6,  proc:3, noinit:0 },
-  { name:"Abner",    total:6,  comp:4,  proc:2, noinit:0 },
-  { name:"Octavio",  total:9,  comp:6,  proc:2, noinit:1 },
-  { name:"Javier",   total:10, comp:6,  proc:4, noinit:0 },
-  { name:"Emanuel",  total:9,  comp:5,  proc:4, noinit:0 },
-  { name:"Ariel",    total:6,  comp:3,  proc:3, noinit:0 },
-  { name:"Diogo",    total:8,  comp:2,  proc:6, noinit:0 },
+  {name:"Mauricio",total:7, comp:7, proc:0,noinit:0},
+  {name:"Pedro",   total:6, comp:6, proc:0,noinit:0},
+  {name:"Wilber",  total:6, comp:5, proc:1,noinit:0},
+  {name:"Cristian",total:20,comp:16,proc:4,noinit:0},
+  {name:"Douglas", total:12,comp:9, proc:3,noinit:0},
+  {name:"Ronny",   total:9, comp:6, proc:3,noinit:0},
+  {name:"Abner",   total:6, comp:4, proc:2,noinit:0},
+  {name:"Octavio", total:9, comp:6, proc:2,noinit:1},
+  {name:"Javier",  total:10,comp:6, proc:4,noinit:0},
+  {name:"Emanuel", total:9, comp:5, proc:4,noinit:0},
+  {name:"Ariel",   total:6, comp:3, proc:3,noinit:0},
+  {name:"Diogo",   total:8, comp:2, proc:6,noinit:0},
 ];
 summary.sort((a,b)=>(b.comp/b.total)-(a.comp/a.total));
 
-function barColor(p){ return p>=80?'#639922':p>=50?'#BA7517':'#E24B4A'; }
-function pctBadge(p){ return p>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:p>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'}; }
+function barColor(p){return p>=80?'#3B6D11':p>=50?'#854F0B':'#A32D2D';}
+function pctBadge(p){return p>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:p>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};}
 
-/* ── desktop table rows ── */
-const tbody = document.getElementById('summaryBody');
+/* ── desktop table ── */
+const tbody=document.getElementById('summaryBody');
 summary.forEach(p=>{
   const pct=Math.round(p.comp/p.total*100);
   const tr=document.createElement('tr');
@@ -319,27 +265,21 @@ summary.forEach(p=>{
     <td style="text-align:center"><span class="badge bg-green">${p.comp}</span></td>
     <td style="text-align:center"><span class="badge bg-amber">${p.proc}</span></td>
     <td style="text-align:center"><span class="badge ${p.noinit>0?'bg-red':'bg-gray'}">${p.noinit}</span></td>
-    <td>
-      <div class="bar-wrap">
-        <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
-        <span class="bar-pct">${pct}%</span>
-      </div>
-    </td>`;
+    <td><div class="bar-wrap">
+      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
+      <span class="bar-pct">${pct}%</span>
+    </div></td>`;
   tbody.appendChild(tr);
 });
 
-/* ── mobile card list ── */
-const cardsEl = document.getElementById('summaryCards');
+/* ── mobile cards ── */
+const cardsEl=document.getElementById('summaryCards');
 summary.forEach(p=>{
-  const pct = Math.round(p.comp/p.total*100);
-  const pc  = pctBadge(pct);
-  const div = document.createElement('div');
-  div.className='sc-item';
+  const pct=Math.round(p.comp/p.total*100), pc=pctBadge(pct);
+  const div=document.createElement('div'); div.className='sc-item';
   div.innerHTML=`
-    <div class="sc-top">
-      <span class="sc-name">${p.name}</span>
-      <span class="sc-pct" style="background:${pc.bg};color:${pc.fg};">${pct}%</span>
-    </div>
+    <div class="sc-top"><span class="sc-name">${p.name}</span>
+      <span class="sc-pct" style="background:${pc.bg};color:${pc.fg};">${pct}%</span></div>
     <div class="sc-pills">
       <span class="sc-pill bg-gray"><span>Total</span>${p.total}</span>
       <span class="sc-pill bg-green"><span>Comp.</span>${p.comp}</span>
@@ -353,139 +293,139 @@ summary.forEach(p=>{
   cardsEl.appendChild(div);
 });
 
-/* ── DETAIL DATA ── */
-const detail = {
+/* ── detail data ── */
+const detail={
   "Mauricio":[
-    {t:"Cambiar dirección a sistema de eslabones",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realización de URDF de Serbot01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Conexiones de STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño de componentes (lidar y pantalla 7\") Jpac1",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Impresion de topes para soporte de POS",a:"80%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Impresion de soporte POS",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Impresiones de planchas para mini PC",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Cambiar dirección a sistema de eslabones",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Realización de URDF de Serbot01",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Conexiones de STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Diseño de componentes (lidar y pantalla 7\") Jpac1",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Impresion de topes para soporte de POS",a:"80%",f:"21 mar",e:"Hecho"},
+    {t:"Impresion de soporte POS",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Impresiones de planchas para mini PC",a:"100%",f:"21 mar",e:"Hecho"},
   ],
   "Pedro":[
     {t:"Código ArduinIDE",a:"100%",f:"21 mar",e:"Hecho",d:"Código para pruebas con arduino."},
     {t:"Comunicación serial arduino - VM ROS2",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación con topics de ROS2."},
     {t:"Configurar VM para Arduino",a:"100%",f:"18 mar",e:"Hecho",d:"Lectura del puerto COM en la VM."},
     {t:"Comunicación serial arduino - VM Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial via Python."},
-    {t:"Configurar VM para STM32",a:"100%",f:"20 mar",e:"Hecho",d:""},
-    {t:"Comunicación serial STM32 - VM Python",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Configurar VM para STM32",a:"100%",f:"20 mar",e:"Hecho"},
+    {t:"Comunicación serial STM32 - VM Python",a:"100%",f:"21 mar",e:"Hecho"},
   ],
   "Wilber":[
-    {t:"Soldadura de soportes de tijerales",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Fabricación estructura soporte llanta trasera",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realización de 7 chasis de Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Soldadura de soportes de tijerales",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Fabricación estructura soporte llanta trasera",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Realización de 7 chasis de Serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Corrección y alineado llantas del. y tras.",a:"100%",f:"21 mar",e:"Hecho",d:"Soldadura de chasis y soportes."},
-    {t:"Cambio de angular por perfil platino JPAC2",a:"100%",f:"20 mar",e:"Hecho",d:""},
-    {t:"Realización de 1 chasis más de Jpac2",a:"0%",f:"21 mar",e:"En curso",d:""},
+    {t:"Cambio de angular por perfil platino JPAC2",a:"100%",f:"20 mar",e:"Hecho"},
+    {t:"Realización de 1 chasis más de Jpac2",a:"0%",f:"21 mar",e:"En curso"},
   ],
   "Cristian":[
     {t:"Conducción satisfactoria RD2 Policía mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas ejecutadas con ajustes electrónicos y mecánicos."},
-    {t:"Verificar sistema Bounding",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
+    {t:"Verificar sistema Bounding",a:"100%",f:"16–20 mar",e:"Hecho"},
     {t:"Controlar puertas y luces Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
-    {t:"Cambio de luces RGB por NEÓN",a:"100%",f:"21 mar",e:"Hecho",d:"Pruebas y cambio de luces NEON."},
-    {t:"Soldadura SMD módulo control Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Instalación de accesorios robot Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Cambio luces RGB por Neon RD2 policía",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Cambio de luces RGB por NEÓN",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Soldadura SMD módulo control Serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Instalación de accesorios robot Pibe",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Cambio luces RGB por Neon RD2 policía",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Verificación de encendido Robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:"Cable principal negativo suelto, corregido."},
-    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho",d:"Prescintado cables STM y controlador motor."},
-    {t:"Instalación fuente 3.3V robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:""},
-    {t:"Limpieza y verificación módulos RD2 policía",a:"100%",f:"20 mar",e:"Hecho",d:""},
-    {t:"Desmontaje electrónica RD2 policía (pintura)",a:"100%",f:"20 mar",e:"Hecho",d:""},
+    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho"},
+    {t:"Instalación fuente 3.3V robot mesero",a:"100%",f:"20 mar",e:"Hecho"},
+    {t:"Limpieza y verificación módulos RD2 policía",a:"100%",f:"20 mar",e:"Hecho"},
+    {t:"Desmontaje electrónica RD2 policía (pintura)",a:"100%",f:"20 mar",e:"Hecho"},
     {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo en controlador de giro."},
-    {t:"Cambio luces guiñadores RD2 policía",a:"50%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Verificar sistema Bounding (2)",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Informe cambios RD2 policía para mando RC",a:"—",f:"21 mar",e:"En curso",d:""},
-    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
+    {t:"Cambio luces guiñadores RD2 policía",a:"50%",f:"16–20 mar",e:"Hecho"},
+    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho"},
+    {t:"Verificar sistema Bounding (2)",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Informe cambios RD2 policía para mando RC",a:"—",f:"21 mar",e:"En curso"},
+    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso"},
     {t:"Pruebas micrófono y altavoz",a:"50%",f:"21 mar",e:"En curso",d:"Instalación software de sonido."},
     {t:"Montaje electrónico JPAC 2",a:"50%",f:"—",e:"En curso",d:"Montaje módulos de alimentación y borneras."},
   ],
   "Douglas":[
-    {t:"Terminar de añadir colegas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realizar compromiso objetivos semana 3",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Enseñar equipo galpón a usar Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Enseñar a Diogo excel cuentas Fibrero Rudy",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Reunión con Jimmy — añadir a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Lista insumos 10 totems → Diogo",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Reunión trazado entregas fibra — Rudy Ribera",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Terminar de añadir colegas a Notion",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Realizar compromiso objetivos semana 3",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Enseñar equipo galpón a usar Notion",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Enseñar a Diogo excel cuentas Fibrero Rudy",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Reunión con Jimmy — añadir a Notion",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Lista insumos 10 totems → Diogo",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Reunión trazado entregas fibra — Rudy Ribera",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Coordinar instalación UPS Megacenter",a:"100%",f:"21 mar",e:"Hecho",d:"Instalación proyectada lunes 23."},
-    {t:"Ordenamiento de stock por tipo de objeto",a:"100%",f:"21 mar",e:"Hecho",d:"Desarrollado por la Sra. Leny."},
-    {t:"Ordenar tareas sem 2 y 3 en Notion",a:"100%",f:"21 mar",e:"En curso",d:""},
-    {t:"Ordenamiento Stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso",d:""},
+    {t:"Ordenamiento de stock por tipo de objeto",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Ordenar tareas sem 2 y 3 en Notion",a:"100%",f:"21 mar",e:"En curso"},
+    {t:"Ordenamiento Stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso"},
     {t:"Gestión problemas totem 15\" Coffi",a:"80%",f:"21 mar",e:"En curso",d:"Cambio de regulador de voltaje pantalla y POS."},
   ],
   "Ronny":[
-    {t:"Controlar puertas y luces Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
-    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
+    {t:"Controlar puertas y luces Mando RC",a:"100%",f:"16–20 mar",e:"Hecho"},
+    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho"},
     {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo controlador de giro."},
-    {t:"Armado cables faltantes control RD2 Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Armado cables datos robot mesero",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Recoger stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Apertura puerta principal mando RF",a:"50%",f:"21 mar",e:"En curso",d:""},
-    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
-    {t:"Prueba de Dron para video",a:"—",f:"21 mar",e:"En curso",d:""},
+    {t:"Armado cables faltantes control RD2 Pibe",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Armado cables datos robot mesero",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Recoger stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Apertura puerta principal mando RF",a:"50%",f:"21 mar",e:"En curso"},
+    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso"},
+    {t:"Prueba de Dron para video",a:"—",f:"21 mar",e:"En curso"},
   ],
   "Abner":[
-    {t:"Verificar sistema Bounding (1)",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
-    {t:"Verificar sistema Bounding (2)",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Recoger stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Verificar sistema Bounding (1)",a:"100%",f:"16–20 mar",e:"Hecho"},
+    {t:"Verificar sistema Bounding (2)",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Recoger stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Cambio interruptor dos posiciones totem",a:"100%",f:"21 mar",e:"Hecho",d:"Se cambió el interruptor dañado."},
     {t:"Entrega 3 totems 15\" terminados",a:"20%",f:"21 mar",e:"En curso",d:"Total acumulado: 13 unidades Lote 2."},
-    {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso",d:""},
+    {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso"},
   ],
   "Octavio":[
     {t:"Diseño case USB totem + impresión 3D",a:"100%",f:"—",e:"Hecho",d:"Diseñado e impreso para equipo totem."},
-    {t:"Diseño base luces policiales RD2",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Diseño base luces policiales RD2",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño Javier, grabado Octavio."},
     {t:"Impresión 3D cámara Intel RD2 (ABS)",a:"100%",f:"21 mar",e:"Hecho",d:"Para robot patrullero."},
-    {t:"Corte y diseño medidas luces RD2 policía",a:"70%",f:"18 mar",e:"Hecho",d:"Diseño y replicación de medidas."},
-    {t:"Prueba 2 cajas de parlante JPAC2",a:"50%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Corte y diseño medidas luces RD2 policía",a:"70%",f:"18 mar",e:"Hecho"},
+    {t:"Prueba 2 cajas de parlante JPAC2",a:"50%",f:"21 mar",e:"Hecho"},
     {t:"Cortar diseño cuerpo JPAC2 para 3D",a:"40%",f:"21 mar",e:"En curso",d:"Se divide diseño para módulo de electrónica."},
     {t:"Impresión 3D luces alarma RD2",a:"30%",f:"21 mar",e:"En curso",d:"Impresión ~7 hs (PLA)."},
-    {t:"Imprimir primeras piezas cuerpo JPAC2",a:"—",f:"21 mar",e:"Por hacer",d:""},
+    {t:"Imprimir primeras piezas cuerpo JPAC2",a:"—",f:"21 mar",e:"Por hacer"},
   ],
   "Javier":[
-    {t:"Definir curvas pantalla Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño pedestal totem 15\" exteriores",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Orejas de panda para Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Definir curvas pantalla Serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Diseño pedestal totem 15\" exteriores",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Orejas de panda para Serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Diseño Totem 24\" para Termoformado",a:"100%",f:"21 mar",e:"Hecho",d:"Diseño terminado."},
-    {t:"Corte MDF nuevas curvas cara Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Corte MDF nuevas curvas cara Serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño Javier, grabado Octavio."},
     {t:"Cortar fierros necesarios RD2 nuevo",a:"80%",f:"20 mar",e:"En curso",d:"Tubo principal RD2 cortado y soldado."},
-    {t:"Fabricación totem 24\" para termoformado",a:"70%",f:"28 mar",e:"En curso",d:""},
-    {t:"Soportes transformador 12V (×4)",a:"50%",f:"21 mar",e:"En curso",d:"Solicitud adicional equipo totem."},
-    {t:"Definir periféricos RD2 + diseño carcasas",a:"30%",f:"28 mar",e:"En curso",d:""},
+    {t:"Fabricación totem 24\" para termoformado",a:"70%",f:"28 mar",e:"En curso"},
+    {t:"Soportes transformador 12V (×4)",a:"50%",f:"21 mar",e:"En curso"},
+    {t:"Definir periféricos RD2 + diseño carcasas",a:"30%",f:"28 mar",e:"En curso"},
   ],
   "Emanuel":[
     {t:"Setup código RD2 conducción nueva",a:"100%",f:"16 mar",e:"Hecho",d:"Migrado de Arduino IDE a Express IDF para ESP32."},
     {t:"Lectura datos Lidar (con José Jesus)",a:"100%",f:"16 mar",e:"Hecho",d:"Periféricos probados sin fallas."},
-    {t:"Conexiones STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Prueba periféricos en mesa (pines + PWM)",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Armado parlantes prueba Serbot01",a:"100%",f:"16 mar",e:"Hecho",d:"Setup de parlantes para pruebas."},
+    {t:"Conexiones STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Prueba periféricos en mesa (pines + PWM)",a:"100%",f:"21 mar",e:"Hecho"},
+    {t:"Armado parlantes prueba Serbot01",a:"100%",f:"16 mar",e:"Hecho"},
     {t:"Código Odometría sin IMU",a:"85%",f:"20 mar",e:"En curso",d:"Mide distancia, falta calibración."},
     {t:"Código Odometría con IMU",a:"70%",f:"24 mar",e:"En curso",d:"Giro con IMU ok, pero queda en loop."},
-    {t:"Prueba movimiento motor RD2 (esp32)",a:"0%",f:"20 mar",e:"En curso",d:""},
-    {t:"Prueba Odometría IMU en Galpón",a:"20%",f:"26 mar",e:"En curso",d:""},
+    {t:"Prueba movimiento motor RD2 (esp32)",a:"0%",f:"20 mar",e:"En curso"},
+    {t:"Prueba Odometría IMU en Galpón",a:"20%",f:"26 mar",e:"En curso"},
   ],
   "Ariel":[
     {t:"10 totems 15\" entregados con soporte POS",a:"100%",f:"21 mar",e:"Hecho",d:"2 unidades en sem 3 para completar 10."},
-    {t:"Entrega primer totem Kioskbot",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Entrega primer totem Kioskbot",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Cambio interruptor dos posiciones totem",a:"100%",f:"21 mar",e:"Hecho",d:"Se cambió el interruptor dañado."},
     {t:"Gestión problemas totem 15\" Coffi",a:"80%",f:"21 mar",e:"En curso",d:"Cambio de regulador de voltaje pantalla y POS."},
     {t:"Entrega 3 totems 15\" terminados",a:"20%",f:"21 mar",e:"En curso",d:"Total acumulado: 13 unidades Lote 2."},
-    {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso",d:""},
+    {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso"},
   ],
   "Diogo":[
-    {t:"Preparar pedidos grandes compra Yamil",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Preparar pedidos grandes compra Yamil",a:"100%",f:"21 mar",e:"Hecho"},
     {t:"Actualizar pagos proyecto Fibra Rudy",a:"100%",f:"21 mar",e:"Hecho",d:"Informe actualizado presentado."},
-    {t:"Presentación caja chica Sem 3",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Corrección BD productos terminados",a:"80%",f:"21 mar",e:"En curso",d:""},
+    {t:"Presentación caja chica Sem 3",a:"80%",f:"21 mar",e:"En curso"},
+    {t:"Corrección BD productos terminados",a:"80%",f:"21 mar",e:"En curso"},
     {t:"Control de productos entregados",a:"80%",f:"21 mar",e:"En curso",d:"Subir archivos de productos entregados."},
     {t:"Control ingreso insumos mayores Sem 3",a:"50%",f:"21 mar",e:"En curso",d:"Registrar PCs y stock china → galpón."},
-    {t:"Ordenamiento stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Actualización justificaciones de personal",a:"80%",f:"21 mar",e:"En curso",d:""},
+    {t:"Ordenamiento stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso"},
+    {t:"Actualización justificaciones de personal",a:"80%",f:"21 mar",e:"En curso"},
   ],
 };
 
@@ -498,36 +438,29 @@ const avatarColors=[
 const stateColor={Hecho:'#639922','En curso':'#BA7517','Por hacer':'#E24B4A'};
 const stateBg   ={Hecho:'#EAF3DE','En curso':'#FAEEDA','Por hacer':'#FCEBEB'};
 const stateFg   ={Hecho:'#3B6D11','En curso':'#854F0B','Por hacer':'#A32D2D'};
-
 const order=["Mauricio","Pedro","Wilber","Cristian","Douglas","Ronny","Abner","Octavio","Javier","Emanuel","Ariel","Diogo"];
 const grid=document.getElementById('detailGrid');
 
 order.forEach((name,idx)=>{
-  const tasks=detail[name]||[];
-  const s=summary.find(x=>x.name===name);
+  const tasks=detail[name]||[], s=summary.find(x=>x.name===name);
   const pct=s?Math.round(s.comp/s.total*100):0;
   const av=avatarColors[idx%avatarColors.length];
   const pc=pct>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:pct>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};
-  const initials=name.slice(0,2).toUpperCase();
-
   const block=document.createElement('div');
   block.className='person-block';
   block.innerHTML=`
     <div class="person-header">
       <div class="person-name">
-        <div class="person-avatar" style="background:${av.bg};color:${av.fg};">${initials}</div>
-        ${name}
+        <div class="person-avatar" style="background:${av.bg};color:${av.fg};">${name.slice(0,2).toUpperCase()}</div>${name}
       </div>
       <span class="person-pct-badge" style="background:${pc.bg};color:${pc.fg};">${pct}%</span>
     </div>
     <ul class="task-list" id="tl-${name}"></ul>`;
   grid.appendChild(block);
-
   const ul=block.querySelector(`#tl-${name}`);
   tasks.forEach(tk=>{
     const dot=stateColor[tk.e]||'#9b9b97';
-    const li=document.createElement('li');
-    li.className='task-item';
+    const li=document.createElement('li'); li.className='task-item';
     li.innerHTML=`
       <div class="task-dot" style="background:${dot};"></div>
       <div class="task-body">
@@ -542,6 +475,412 @@ order.forEach((name,idx)=>{
     ul.appendChild(li);
   });
 });
+
+/* ═══════════════════════════════════════
+   PDF EXPORT — pure jsPDF, no screenshots
+   Página A4 apaisada (297 × 210 mm)
+   Sección 1: portada con KPIs + tabla resumen (con cabeceras repetidas si hay salto)
+   Sección 2: detalle por persona, cada bloque sin cortes mid-person
+═══════════════════════════════════════ */
+async function exportPDF() {
+  const btn = document.getElementById('btnPdf');
+  btn.classList.add('loading');
+  btn.textContent = 'Generando…';
+
+  await new Promise(r => setTimeout(r, 50)); // let UI update
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+
+  const PW = 297, PH = 210;
+  const ML = 14, MR = 14, MT = 14, MB = 12;
+  const CW = PW - ML - MR; // 269 mm
+
+  // ── Palette ──
+  const C = {
+    navy:   [24, 95, 165],
+    green:  [59,109, 17],
+    amber:  [133, 79, 11],
+    red:    [163, 45, 45],
+    gray:   [107,107,103],
+    lgray:  [240,239,235],
+    border: [220,219,215],
+    text:   [26, 26, 24],
+    muted:  [107,107,103],
+    white:  [255,255,255],
+    bgpage: [245,245,243],
+    bgsec:  [250,250,248],
+    green_bg:[234,243,222],
+    amber_bg:[250,238,218],
+    red_bg:  [252,235,235],
+  };
+
+  function setFont(size, style='normal', color=C.text) {
+    doc.setFontSize(size);
+    doc.setFont('helvetica', style);
+    doc.setTextColor(...color);
+  }
+
+  function rect(x,y,w,h,fill,stroke) {
+    if(fill) { doc.setFillColor(...fill); doc.rect(x,y,w,h,'F'); }
+    if(stroke){ doc.setDrawColor(...stroke); doc.setLineWidth(0.2); doc.rect(x,y,w,h,'S'); }
+  }
+
+  function pill(x,y,w,h,bg,fg,label) {
+    doc.setFillColor(...bg);
+    doc.roundedRect(x,y,w,h,h/2,h/2,'F');
+    setFont(7,'bold',fg);
+    doc.text(label, x+w/2, y+h/2+2.5, {align:'center'});
+  }
+
+  function progressBar(x,y,w,h,pct,color) {
+    rect(x,y,w,h,C.lgray);
+    if(pct>0) rect(x,y,w*(pct/100),h,color);
+  }
+
+  let curY = MT;
+  let pageNum = 1;
+
+  function addPageNum() {
+    setFont(7,'normal',C.muted);
+    doc.text(`Pág. ${pageNum}`, PW/2, PH - 5, {align:'center'});
+    doc.text('Nexus Patio Tech · Equipo Hardware · Semana 3 Marzo 2026', ML, PH - 5);
+    doc.text('Generado: 22 mar 2026', PW - MR, PH - 5, {align:'right'});
+  }
+
+  function newPage() {
+    addPageNum();
+    doc.addPage();
+    pageNum++;
+    curY = MT;
+  }
+
+  function checkY(need) {
+    if (curY + need > PH - MB - 8) { newPage(); return true; }
+    return false;
+  }
+
+  /* ────────────────────────────────
+     PAGE 1 — PORTADA / KPIs
+  ──────────────────────────────── */
+
+  // Header band
+  doc.setFillColor(...C.navy);
+  doc.rect(0, 0, PW, 22, 'F');
+
+  // Title
+  setFont(16, 'bold', C.white);
+  doc.text('Reporte de Desempeño — Equipo Hardware', ML, 10);
+  setFont(8, 'normal', [180,210,240]);
+  doc.text('Nexus Patio Tech · Galpón · Semana 3, Marzo 2026', ML, 16);
+
+  // Badge top-right
+  doc.setFillColor(255,255,255,0.15);
+  doc.setFillColor(40,100,180);
+  doc.roundedRect(PW-MR-38, 5, 38, 12, 3, 3, 'F');
+  setFont(8,'bold',C.white);
+  doc.text('17 – 21 Mar 2026', PW-MR-19, 13, {align:'center'});
+
+  curY = 30;
+
+  // KPI cards row
+  const kpis = [
+    {label:'Tareas totales',   val:'96',  color:C.navy},
+    {label:'Completadas',      val:'67',  color:C.green},
+    {label:'En proceso',       val:'28',  color:C.amber},
+    {label:'No iniciadas',     val:'1',   color:C.red},
+    {label:'Cumplimiento global', val:'70%', color:C.green},
+  ];
+  const kW = (CW - 4*4) / 5;
+  kpis.forEach((k,i) => {
+    const kx = ML + i*(kW+4);
+    rect(kx, curY, kW, 22, C.bgsec, C.border);
+    setFont(17,'bold',k.color);
+    doc.text(k.val, kx+kW/2, curY+13, {align:'center'});
+    setFont(7,'normal',C.muted);
+    doc.text(k.label, kx+kW/2, curY+19, {align:'center'});
+  });
+  curY += 28;
+
+  // Section label
+  setFont(7,'bold',C.muted);
+  doc.text('RESUMEN POR RESPONSABLE', ML, curY);
+  curY += 5;
+
+  /* ── Summary table ── */
+  const cols = [
+    {label:'Responsable', w:36},
+    {label:'Total',       w:14, align:'center'},
+    {label:'Comp.',       w:14, align:'center'},
+    {label:'En proc.',    w:16, align:'center'},
+    {label:'No inic.',    w:16, align:'center'},
+    {label:'Cumplimiento',w:CW-36-14-14-16-16, align:'left'},
+  ];
+  const ROW_H = 8.5;
+  const HEAD_H = 7;
+
+  function drawTableHeader(y) {
+    rect(ML, y, CW, HEAD_H, [230,237,248], C.border);
+    let cx = ML;
+    cols.forEach(c => {
+      setFont(7,'bold',[50,80,130]);
+      doc.text(c.label, cx + (c.align==='center'? c.w/2 : 3), y + HEAD_H/2 + 2.5,
+        {align: c.align==='center'?'center':'left'});
+      cx += c.w;
+    });
+    return y + HEAD_H;
+  }
+
+  curY = drawTableHeader(curY);
+
+  summary.forEach((p, ri) => {
+    checkY(ROW_H);
+    const pct = Math.round(p.comp/p.total*100);
+
+    // alternate row bg
+    if(ri%2===0) rect(ML, curY, CW, ROW_H, [248,248,246]);
+
+    let cx = ML;
+
+    // Name
+    setFont(8,'bold',C.text);
+    doc.text(p.name, cx+3, curY+ROW_H/2+2.5);
+    cx += cols[0].w;
+
+    // Total
+    setFont(8,'normal',C.text);
+    doc.text(String(p.total), cx+cols[1].w/2, curY+ROW_H/2+2.5, {align:'center'});
+    cx += cols[1].w;
+
+    // Comp badge
+    const compBg=C.green_bg, compFg=C.green;
+    pill(cx+1, curY+1.5, cols[2].w-2, ROW_H-3, compBg, compFg, String(p.comp));
+    cx += cols[2].w;
+
+    // En proc badge
+    pill(cx+1, curY+1.5, cols[3].w-2, ROW_H-3, C.amber_bg, C.amber, String(p.proc));
+    cx += cols[3].w;
+
+    // No inic badge
+    const nibg = p.noinit>0 ? C.red_bg : C.lgray;
+    const nifg = p.noinit>0 ? C.red   : C.gray;
+    pill(cx+1, curY+1.5, cols[4].w-2, ROW_H-3, nibg, nifg, String(p.noinit));
+    cx += cols[4].w;
+
+    // Progress bar + pct
+    const barW = cols[5].w - 16;
+    progressBar(cx+2, curY+3, barW, 3, pct, pct>=80?C.green:pct>=50?C.amber:C.red);
+    setFont(7,'bold', pct>=80?C.green:pct>=50?C.amber:C.red);
+    doc.text(`${pct}%`, cx+2+barW+3, curY+ROW_H/2+2.5);
+
+    // Row border
+    doc.setDrawColor(...C.border); doc.setLineWidth(0.1);
+    doc.line(ML, curY+ROW_H, ML+CW, curY+ROW_H);
+
+    curY += ROW_H;
+  });
+
+  // outer table border
+  doc.setDrawColor(...C.border); doc.setLineWidth(0.3);
+  doc.rect(ML, curY - ROW_H*summary.length - HEAD_H, CW,
+    ROW_H*summary.length + HEAD_H, 'S');
+
+  curY += 8;
+
+  /* ────────────────────────────────
+     PAGES 2+ — DETAIL PER PERSON
+     Each person = one block; if it doesn't fit → new page
+     Table repeats header on each page
+  ──────────────────────────────── */
+  newPage();
+
+  // Section label
+  setFont(7,'bold',C.muted);
+  doc.text('DETALLE DE TAREAS POR RESPONSABLE', ML, curY);
+  curY += 6;
+
+  const dCols = [
+    {label:'Tarea',    w: CW*0.46},
+    {label:'Avance',   w: CW*0.09, align:'center'},
+    {label:'Fecha est.',w: CW*0.12, align:'center'},
+    {label:'Estado',   w: CW*0.16, align:'center'},
+    {label:'Detalle',  w: CW*0.17},
+  ];
+  const DR_H = 7;
+  const DH_H = 6.5;
+
+  function drawDetailHeader(y) {
+    rect(ML, y, CW, DH_H, [230,237,248], C.border);
+    let cx=ML;
+    dCols.forEach(c=>{
+      setFont(6.5,'bold',[50,80,130]);
+      doc.text(c.label, cx+(c.align==='center'?c.w/2:3), y+DH_H/2+2.2,
+        {align:c.align==='center'?'center':'left'});
+      cx+=c.w;
+    });
+    return y+DH_H;
+  }
+
+  let headerDrawn = false;
+
+  order.forEach((name, pidx) => {
+    const tasks = detail[name]||[];
+    const s = summary.find(x=>x.name===name);
+    const pct = s?Math.round(s.comp/s.total*100):0;
+    const av = avatarColors[pidx%avatarColors.length];
+    const pc = pct>=80?{bg:C.green_bg,fg:C.green}:pct>=50?{bg:C.amber_bg,fg:C.amber}:{bg:C.red_bg,fg:C.red};
+
+    // Estimate height needed: person header + all tasks
+    const blockH = 9 + tasks.length * DR_H + 4;
+    const remaining = PH - MB - 8 - curY;
+
+    // If whole block doesn't fit (and more than one task), try new page
+    // But always draw at least the header + a few rows before breaking
+    if (remaining < 20) {
+      newPage();
+      headerDrawn = false;
+    }
+
+    if (!headerDrawn) {
+      curY = drawDetailHeader(curY);
+      headerDrawn = true;
+    }
+
+    // Person name row
+    const nameRowH = 8.5;
+    checkY(nameRowH);
+    const nameY = curY;
+    doc.setFillColor(...av.bg);
+    doc.rect(ML, nameY, CW, nameRowH, 'F');
+
+    // Avatar circle
+    doc.setFillColor(...av.fg);
+    doc.circle(ML+5.5, nameY+nameRowH/2, 3.2, 'F');
+    setFont(6.5,'bold',C.white);
+    doc.text(name.slice(0,2).toUpperCase(), ML+5.5, nameY+nameRowH/2+2, {align:'center'});
+
+    setFont(9,'bold',C.text);
+    doc.text(name, ML+11, nameY+nameRowH/2+3);
+
+    // Pct badge
+    doc.setFillColor(...pc.bg);
+    doc.roundedRect(ML+CW-22, nameY+1.5, 20, nameRowH-3, 2, 2, 'F');
+    setFont(8,'bold',pc.fg);
+    doc.text(`${pct}%`, ML+CW-12, nameY+nameRowH/2+3, {align:'center'});
+
+    // Stats pills inline
+    const pills2 = [
+      {label:`${s.total} Total`,  bg:C.lgray,    fg:C.gray},
+      {label:`${s.comp} Comp.`,   bg:C.green_bg, fg:C.green},
+      {label:`${s.proc} Proc.`,   bg:C.amber_bg, fg:C.amber},
+    ];
+    let px = ML + 48;
+    pills2.forEach(pp=>{
+      const pw2 = doc.getTextWidth(pp.label)+6;
+      doc.setFillColor(...pp.bg);
+      doc.roundedRect(px, nameY+2, pw2, nameRowH-4, (nameRowH-4)/2, (nameRowH-4)/2, 'F');
+      setFont(6.5,'bold',pp.fg);
+      doc.text(pp.label, px+pw2/2, nameY+nameRowH/2+2, {align:'center'});
+      px += pw2+3;
+    });
+
+    curY += nameRowH;
+
+    tasks.forEach((tk, ti) => {
+      // check if we need a new page mid-person
+      if (curY + DR_H > PH - MB - 8) {
+        newPage();
+        headerDrawn = false;
+        // re-draw table header + person continuation header
+        curY = drawDetailHeader(curY);
+        headerDrawn = true;
+        // continuation label
+        doc.setFillColor(...av.bg);
+        doc.rect(ML, curY, CW, 5.5, 'F');
+        setFont(7,'bold',C.muted);
+        doc.text(`${name} (cont.)`, ML+3, curY+4);
+        curY += 5.5;
+      }
+
+      const rowY = curY;
+      if(ti%2===0) rect(ML, rowY, CW, DR_H, [248,248,246]);
+
+      const dot = tk.e==='Hecho'?C.green:tk.e==='En curso'?C.amber:C.red;
+      doc.setFillColor(...dot);
+      doc.circle(ML+3, rowY+DR_H/2, 1.2, 'F');
+
+      let cx2 = ML+7;
+
+      // Task name
+      const maxW = dCols[0].w - 8;
+      const taskLines = doc.splitTextToSize(tk.t, maxW);
+      const lineH = 3.8;
+      const textY = taskLines.length===1 ? rowY+DR_H/2+1.5 : rowY+2+lineH*0.8;
+
+      if(tk.e==='Hecho') {
+        setFont(7,'normal',[160,160,155]);
+      } else {
+        setFont(7,'normal',C.text);
+      }
+      doc.text(taskLines.slice(0,2), cx2, textY, {lineHeightFactor:1.3});
+      cx2 += dCols[0].w;
+
+      // Avance
+      setFont(7,'bold',dot);
+      doc.text(tk.a||'—', cx2+dCols[1].w/2, rowY+DR_H/2+1.5, {align:'center'});
+      cx2 += dCols[1].w;
+
+      // Fecha
+      setFont(6.5,'normal',C.muted);
+      doc.text(tk.f||'—', cx2+dCols[2].w/2, rowY+DR_H/2+1.5, {align:'center'});
+      cx2 += dCols[2].w;
+
+      // Estado pill
+      const sBg=stateBg[tk.e]||[241,239,232];
+      const sFg=stateFg[tk.e]||[95,94,90];
+      const sBgArr=[parseInt('0x'+sBg.slice(1,3)||0),0,0];
+      // use hex to rgb
+      function h2r(hex){
+        const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+        return[r,g,b];
+      }
+      const sBgRgb=h2r(Object.keys(stateBg).includes(tk.e)?
+        ({Hecho:'#EAF3DE','En curso':'#FAEEDA','Por hacer':'#FCEBEB'}[tk.e]||'#F1EFE8'):'#F1EFE8');
+      const sFgRgb=h2r(Object.keys(stateFg).includes(tk.e)?
+        ({Hecho:'#3B6D11','En curso':'#854F0B','Por hacer':'#A32D2D'}[tk.e]||'#5F5E5A'):'#5F5E5A');
+
+      const sw=dCols[3].w-4;
+      doc.setFillColor(...sBgRgb);
+      doc.roundedRect(cx2+2, rowY+2, sw, DR_H-4, (DR_H-4)/2, (DR_H-4)/2, 'F');
+      setFont(6,'bold',sFgRgb);
+      doc.text(tk.e, cx2+2+sw/2, rowY+DR_H/2+1.5, {align:'center'});
+      cx2 += dCols[3].w;
+
+      // Detalle
+      if(tk.d) {
+        const dLines=doc.splitTextToSize(tk.d, dCols[4].w-4);
+        setFont(6,'normal',C.muted);
+        doc.text(dLines[0], cx2+2, rowY+DR_H/2+1.5);
+      }
+
+      // row divider
+      doc.setDrawColor(...C.border); doc.setLineWidth(0.1);
+      doc.line(ML, rowY+DR_H, ML+CW, rowY+DR_H);
+
+      curY += DR_H;
+    });
+
+    // gap between persons
+    curY += 3;
+  });
+
+  addPageNum();
+
+  doc.save('Reporte_Hardware_Nexus_Sem3_2026.pdf');
+
+  btn.classList.remove('loading');
+  btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8.5 17.5v-5h1.25c.97 0 1.75.78 1.75 1.75S10.72 16 9.75 16H9.5v1.5H8.5zm3.75-3.25c0 1.52-1.12 2.75-2.5 2.75H7.5v-5.5H9.75c1.38 0 2.5 1.23 2.5 2.75zm4.25 3.25h-1v-2h-1.5v2h-1v-5h1v2h1.5v-2h1v5z"/></svg> Descargar PDF`;
+}
 </script>
 </body>
 </html>
