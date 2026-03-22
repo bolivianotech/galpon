@@ -277,13 +277,14 @@ tbody td { padding:.6rem .7rem; vertical-align:middle; }
 <body>
 <div class="container">
 
-  <!-- EXPORT BAR -->
+  <!-- EXPORT BAR — hidden
   <div class="export-bar">
     <button class="btn-pdf" onclick="exportPDF()">
       <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8.5 17.5v-5h1.25c.97 0 1.75.78 1.75 1.75S10.72 16 9.75 16H9.5v1.5H8.5zm3.75-3.25c0 1.52-1.12 2.75-2.5 2.75H7.5v-5.5H9.75c1.38 0 2.5 1.23 2.5 2.75zm4.25 3.25h-1v-2h-1.5v2h-1v-5h1v2h1.5v-2h1v5z"/></svg>
       Descargar PDF
     </button>
   </div>
+  END EXPORT BAR -->
 
   <!-- REPORT HEADER -->
   <div class="report-header">
@@ -296,11 +297,11 @@ tbody td { padding:.6rem .7rem; vertical-align:middle; }
 
   <!-- METRICS -->
   <div class="metrics-row">
-    <div class="metric-card"><div class="metric-value mv-blue">108</div><div class="metric-label">Tareas totales</div></div>
-    <div class="metric-card"><div class="metric-value mv-green">76</div><div class="metric-label">Completadas</div></div>
-    <div class="metric-card"><div class="metric-value mv-amber">31</div><div class="metric-label">En proceso</div></div>
+    <div class="metric-card"><div class="metric-value mv-blue">107</div><div class="metric-label">Tareas totales</div></div>
+    <div class="metric-card"><div class="metric-value mv-green">81</div><div class="metric-label">Completadas</div></div>
+    <div class="metric-card"><div class="metric-value mv-amber">25</div><div class="metric-label">En proceso</div></div>
     <div class="metric-card"><div class="metric-value mv-red">1</div><div class="metric-label">No iniciadas</div></div>
-    <div class="metric-card"><div class="metric-value mv-green">70%</div><div class="metric-label">Cumplimiento global</div></div>
+    <div class="metric-card"><div class="metric-value mv-green">76%%</div><div class="metric-label">Cumplimiento global</div></div>
   </div>
 
   <!-- SUMMARY TABLE -->
@@ -343,16 +344,16 @@ tbody td { padding:.6rem .7rem; vertical-align:middle; }
 const summary = [
   {name:"Mauricio",total:7, comp:7, proc:0,noinit:0},
   {name:"Pedro",   total:6, comp:6, proc:0,noinit:0},
+  {name:"Ronny",   total:8, comp:7, proc:1,noinit:0},
   {name:"Douglas", total:12,comp:10,proc:2,noinit:0},
   {name:"Wilber",  total:6, comp:5, proc:1,noinit:0},
   {name:"Cristian",total:20,comp:16,proc:4,noinit:0},
-  {name:"Ronny",   total:9, comp:6, proc:3,noinit:0},
+  {name:"Diogo",   total:8, comp:6, proc:2,noinit:0},
   {name:"Abner",   total:6, comp:4, proc:2,noinit:0},
   {name:"Octavio", total:9, comp:6, proc:2,noinit:1},
   {name:"Javier",  total:10,comp:6, proc:4,noinit:0},
   {name:"Emanuel", total:9, comp:5, proc:4,noinit:0},
   {name:"Ariel",   total:6, comp:3, proc:3,noinit:0},
-  {name:"Diogo",   total:8, comp:2, proc:6,noinit:0},
 ];
 summary.sort((a,b)=>(b.comp/b.total)-(a.comp/a.total));
 
@@ -368,15 +369,15 @@ const detail = {
   ],
   "Pedro":[
     {t:"Código ArduinIDE",a:"100%",f:"21 mar",e:"Hecho",d:"Código para las pruebas con arduino."},
-    {t:"Comunicación serial arduino con VM - ROS2",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación con los topics de ROS2."},
+    {t:"Comunicación serial arduino con VM - ROS2",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación del arduino con los topics de ROS2."},
     {t:"Configurar VM para Arduino",a:"100%",f:"18 mar",e:"Hecho",d:"Lectura del puerto COM del Arduino en la VM."},
     {t:"Comunicación serial arduino con VM - Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial usando código Python por puerto habilitado."},
-    {t:"Configurar VM para STM32",a:"100%",f:"20 mar",e:"Hecho",d:"Configuración para lectura del puerto COM en la VM."},
+    {t:"Configurar VM para STM32",a:"100%",f:"20 mar",e:"Hecho",d:"Configuración para la lectura del puerto COM en la VM."},
     {t:"Comunicación serial STM32 con VM - Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial via Python por puerto habilitado."},
   ],
   "Wilber":[
     {t:"Soldadura de soportes de tijerales",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Fabricación estructura completa soporte llanta trasera",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Fabricación estructura soporte llanta trasera",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Realización de 7 chasis de Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Corrección y alineado dirección llantas del. y tras.",a:"100%",f:"21 mar",e:"Hecho",d:"Soldadura de chasis y soportes para mayor estabilidad."},
     {t:"Cambio de angular por perfil platino JPAC2",a:"100%",f:"20 mar",e:"Hecho",d:""},
@@ -384,15 +385,15 @@ const detail = {
   ],
   "Cristian":[
     {t:"Conducción satisfactoria RD2 Policía mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas ejecutadas con ajustes electrónicos y mecánicos."},
-    {t:"Verificar que funcione sistema Bounding",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
+    {t:"Verificar sistema Bounding",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
     {t:"Controlar puertas y luces con Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
-    {t:"Cambio de luces guiñadores RD2 policía",a:"50%",f:"16–20 mar",e:"Hecho",d:""},
+    {t:"Cambio luces guiñadores RD2 policía",a:"50%",f:"16–20 mar",e:"Hecho",d:""},
     {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho",d:"Cortes y prescintado de cables de controladora STM y motor."},
-    {t:"Verificar que funciona el sistema de Bounding",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho",d:"Cortes y prescintado de cables STM y controlador motor."},
+    {t:"Verificar sistema Bounding (galpón)",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Verificación de encendido Robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:"Cable principal negativo suelto, corregido."},
-    {t:"Apertura de puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo en controlador de giro."},
-    {t:"Cambio de luces RGB por Neon RD2 policía",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Apertura puerta principal mando RC",a:"100%",f:"20 mar",e:"Hecho",d:"Instalación módulos mando a distancia completada."},
+    {t:"Cambio luces RGB por Neon RD2 policía",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Soldadura SMD módulo control Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Cambio de luces RGB por NEÓN",a:"100%",f:"21 mar",e:"Hecho",d:"Pruebas y cambio de nuevas luces NEON."},
     {t:"Instalación de accesorios robot Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
@@ -400,14 +401,14 @@ const detail = {
     {t:"Limpieza y verificación módulos RD2 policía",a:"100%",f:"20 mar",e:"Hecho",d:"Limpieza de módulos, cables, conectores y sensores."},
     {t:"Desmontaje electrónica RD2 policía (pintura)",a:"100%",f:"20 mar",e:"Hecho",d:"Para corrección de pintura y acabado estético."},
     {t:"Informe cambios RD2 policía para mando RC",a:"—",f:"21 mar",e:"En curso",d:""},
-    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
-    {t:"Pruebas de micrófono y altavoz",a:"50%",f:"21 mar",e:"En curso",d:"Instalación de software de sonido y altavoz."},
+    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"50%",f:"21 mar",e:"En curso",d:""},
+    {t:"Pruebas micrófono y altavoz",a:"50%",f:"21 mar",e:"En curso",d:"Instalación de software de sonido y altavoz."},
     {t:"Montaje electrónico Robot JPAC 2",a:"50%",f:"—",e:"En curso",d:"Montaje de módulos de alimentación y borneras."},
   ],
   "Douglas":[
-    {t:"Terminar de añadir a todos los colegas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Ordenar tareas de semana 2 y 3 en Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realizar compromiso de objetivos semana 3",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Terminar de añadir todos los colegas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Ordenar tareas semana 2 y 3 en Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Realizar compromiso objetivos semana 3",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Enseñar equipo galpón a subir tareas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Enseñar a Diogo excel cuentas Fibrero Rudy",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Reunión con Jimmy — añadir a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
@@ -421,13 +422,12 @@ const detail = {
   "Ronny":[
     {t:"Controlar puertas y luces con Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
     {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo controlador de giro."},
+    {t:"Apertura puerta principal mando RC",a:"100%",f:"20 mar",e:"Hecho",d:"Instalación módulos mando a distancia completada."},
     {t:"Armado cables faltantes control RD2 Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Armado cables datos robot mesero",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Recoger Stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Apertura puerta principal mando RF",a:"50%",f:"21 mar",e:"En curso",d:""},
-    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
-    {t:"Prueba de Dron para video",a:"—",f:"21 mar",e:"En curso",d:""},
+    {t:"Prueba de Dron para video",a:"100%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"50%",f:"21 mar",e:"En curso",d:""},
   ],
   "Abner":[
     {t:"Verificar sistema Bounding (RD2 patrullero)",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
@@ -438,11 +438,11 @@ const detail = {
     {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso",d:""},
   ],
   "Octavio":[
-    {t:"Prueba 2 cajas de parlante JPAC2",a:"50%",f:"21 mar",e:"Hecho",d:""},
+    {t:"Prueba 2 cajas parlante JPAC2",a:"50%",f:"21 mar",e:"Hecho",d:""},
     {t:"Corte y diseño medidas luces RD2 policía",a:"70%",f:"18 mar",e:"Hecho",d:"Diseño y replicación de medidas."},
     {t:"Diseño case USB para totem + impresión 3D",a:"100%",f:"—",e:"Hecho",d:"Diseñado e impreso para equipo totem."},
     {t:"Diseño base luces policiales RD2",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño a cargo de Javier, grabado por Octavio."},
+    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño Javier, grabado Octavio."},
     {t:"Impresión 3D cámara Intel RD2 (ABS)",a:"100%",f:"21 mar",e:"Hecho",d:"Para robot patrullero."},
     {t:"Cortar diseño cuerpo JPAC2 para 3D",a:"40%",f:"21 mar",e:"En curso",d:"Se divide diseño para módulo de electrónica."},
     {t:"Impresión 3D luces alarma RD2",a:"30%",f:"21 mar",e:"En curso",d:"Impresión ~7 hs (PLA)."},
@@ -481,13 +481,13 @@ const detail = {
   ],
   "Diogo":[
     {t:"Actualizar pagos proyecto Fibra Rudy",a:"100%",f:"21 mar",e:"Hecho",d:"Informe actualizado presentado."},
-    {t:"Presentación caja chica Sem 3",a:"80%",f:"21 mar",e:"En curso",d:""},
+    {t:"Presentación de caja chica Sem 3",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Corrección BD productos terminados",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Control de productos entregados",a:"80%",f:"21 mar",e:"En curso",d:"Subir archivos de productos entregados de la semana."},
-    {t:"Control ingreso insumos mayores Sem 3",a:"50%",f:"21 mar",e:"En curso",d:"Registrar PCs y movimiento stock china → galpón."},
+    {t:"Control de productos entregados",a:"100%",f:"21 mar",e:"Hecho",d:"Archivos de productos entregados subidos."},
+    {t:"Control ingreso insumos mayores Sem 3",a:"100%",f:"21 mar",e:"Hecho",d:"PCs y movimiento stock china → galpón registrado."},
     {t:"Preparar pedidos grandes compra Yamil",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Ordenamiento Stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Actualización justificaciones de personal",a:"80%",f:"21 mar",e:"En curso",d:""},
+    {t:"Actualización justificaciones de personal",a:"100%",f:"21 mar",e:"Hecho",d:""},
   ],
 };
 
