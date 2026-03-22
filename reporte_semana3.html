@@ -6,17 +6,19 @@
 <title>Reporte Semana 3 — Hardware Nexus</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: #f5f5f3;
     min-height: 100vh;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
     color: #1a1a18;
   }
+
   .container {
     max-width: 900px;
     margin: 0 auto;
-    background: #ffffff;
+    background: #fff;
     border-radius: 14px;
     border: 1px solid rgba(0,0,0,0.08);
     overflow: hidden;
@@ -24,160 +26,210 @@
 
   /* ── HEADER ── */
   .report-header {
-    padding: 1.5rem 1.5rem 1rem;
+    padding: 1.25rem 1.25rem 1rem;
     border-bottom: 1px solid rgba(0,0,0,0.07);
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 8px;
   }
-  .report-title  { font-size: 20px; font-weight: 600; color: #1a1a18; }
-  .report-subtitle { font-size: 13px; color: #6b6b67; margin-top: 3px; }
-  .report-badge {
-    font-size: 12px; padding: 4px 12px; border-radius: 8px;
-    background: #E6F1FB; color: #185FA5; font-weight: 600; white-space: nowrap;
+  .report-title   { font-size: 18px; font-weight: 700; color: #1a1a18; line-height: 1.3; }
+  .report-subtitle{ font-size: 12px; color: #6b6b67; margin-top: 3px; }
+  .report-badge   {
+    font-size: 11px; padding: 4px 10px; border-radius: 8px;
+    background: #E6F1FB; color: #185FA5; font-weight: 700;
+    white-space: nowrap; flex-shrink: 0; align-self: flex-start;
   }
 
-  /* ── METRIC CARDS ── */
+  /* ── METRICS ── */
   .metrics-row {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 8px;
-    padding: 1rem 1.5rem;
+    gap: 6px;
+    padding: 0.875rem 1.25rem;
     background: #fafaf8;
     border-bottom: 1px solid rgba(0,0,0,0.07);
   }
   .metric-card {
     background: #fff; border-radius: 10px;
     border: 1px solid rgba(0,0,0,0.07);
-    padding: 0.8rem 0.5rem; text-align: center;
+    padding: 0.7rem 0.4rem; text-align: center;
   }
-  .metric-value { font-size: 24px; font-weight: 600; line-height: 1.2; }
-  .metric-label { font-size: 11px; color: #6b6b67; margin-top: 4px; }
+  .metric-value { font-size: 22px; font-weight: 700; line-height: 1.1; }
+  .metric-label { font-size: 10px; color: #6b6b67; margin-top: 4px; line-height: 1.3; }
   .mv-blue  { color: #185FA5; }
   .mv-green { color: #3B6D11; }
   .mv-amber { color: #854F0B; }
   .mv-red   { color: #A32D2D; }
 
-  /* ── SECTION LABELS ── */
+  /* ── SECTION LABEL ── */
   .section-label {
-    padding: 0.9rem 1.5rem 0.3rem;
-    font-size: 11px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.07em; color: #9b9b97;
+    padding: 0.9rem 1.25rem 0.35rem;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: #9b9b97;
   }
 
-  /* ── SUMMARY TABLE ── */
-  .table-wrap { padding: 0 1.5rem 1.5rem; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  /* ── SUMMARY — desktop table ── */
+  .table-wrap { padding: 0 1.25rem 1.25rem; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
   thead th {
-    text-align: left; font-weight: 600; font-size: 11px; color: #6b6b67;
-    padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(0,0,0,0.08);
-    text-transform: uppercase; letter-spacing: 0.04em;
+    text-align: left; font-weight: 700; font-size: 10px; color: #6b6b67;
+    padding: 0.45rem 0.7rem; border-bottom: 1px solid rgba(0,0,0,0.08);
+    text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
   }
-  tbody tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  tbody tr { border-bottom: 1px solid rgba(0,0,0,0.05); }
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: #fafaf8; }
-  tbody td { padding: 0.65rem 0.75rem; vertical-align: middle; color: #1a1a18; }
-  .col-name   { width: 15%; font-weight: 600; }
-  .col-total  { width: 9%;  text-align: center; }
-  .col-comp   { width: 10%; text-align: center; }
-  .col-proc   { width: 11%; text-align: center; }
-  .col-noinit { width: 11%; text-align: center; }
-  .col-pct    { width: 44%; }
+  tbody td { padding: 0.6rem 0.7rem; vertical-align: middle; }
 
   .badge {
-    display: inline-block; padding: 2px 9px; border-radius: 99px;
-    font-size: 12px; font-weight: 600; line-height: 1.6;
+    display: inline-block; padding: 2px 8px; border-radius: 99px;
+    font-size: 11px; font-weight: 700; line-height: 1.6;
   }
   .bg-green { background: #EAF3DE; color: #3B6D11; }
   .bg-amber { background: #FAEEDA; color: #854F0B; }
   .bg-red   { background: #FCEBEB; color: #A32D2D; }
   .bg-gray  { background: #F1EFE8; color: #5F5E5A; }
 
-  .bar-wrap { display: flex; align-items: center; gap: 8px; }
-  .bar-bg { flex: 1; height: 8px; background: #f0efeb; border-radius: 99px; overflow: hidden; }
+  .bar-wrap { display: flex; align-items: center; gap: 6px; }
+  .bar-bg   { flex: 1; height: 7px; background: #f0efeb; border-radius: 99px; overflow: hidden; min-width: 40px; }
   .bar-fill { height: 100%; border-radius: 99px; }
-  .bar-pct { font-size: 12px; font-weight: 600; min-width: 34px; text-align: right; color: #6b6b67; }
+  .bar-pct  { font-size: 12px; font-weight: 700; min-width: 32px; text-align: right; color: #6b6b67; }
 
-  /* ── DIVIDER ── */
-  .divider { border: none; border-top: 1px solid rgba(0,0,0,0.07); margin: 0; }
+  /* ── SUMMARY — mobile card list (hidden on desktop) ── */
+  .summary-cards { display: none; padding: 0 1.25rem 1.25rem; flex-direction: column; gap: 6px; }
+  .sc-item {
+    background: #fafaf8; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06);
+    padding: 0.75rem 0.875rem;
+  }
+  .sc-top {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+  }
+  .sc-name { font-size: 14px; font-weight: 700; color: #1a1a18; }
+  .sc-pct  {
+    font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 99px;
+  }
+  .sc-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .sc-pill  {
+    font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600;
+    display: flex; align-items: center; gap: 3px;
+  }
+  .sc-pill span { font-size: 10px; color: inherit; opacity: 0.7; }
+  .sc-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .sc-bar-bg   { flex: 1; height: 6px; background: #e8e7e3; border-radius: 99px; overflow: hidden; }
+  .sc-bar-fill { height: 100%; border-radius: 99px; }
 
-  /* ── DETAIL SECTION ── */
+  /* ── DETAIL GRID ── */
   .detail-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 1px;
     background: rgba(0,0,0,0.06);
     border-top: 1px solid rgba(0,0,0,0.07);
   }
-  .person-block {
-    background: #fff;
-    padding: 1.1rem 1.25rem;
-  }
+  .person-block { background: #fff; padding: 1rem 1.125rem; }
   .person-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 0.7rem;
   }
   .person-name {
-    font-size: 14px; font-weight: 600; color: #1a1a18;
+    font-size: 14px; font-weight: 700; color: #1a1a18;
     display: flex; align-items: center; gap: 8px;
   }
   .person-avatar {
     width: 28px; height: 28px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700; flex-shrink: 0;
+    font-size: 10px; font-weight: 800; flex-shrink: 0;
   }
-  .person-pct-badge {
-    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
-  }
+  .person-pct-badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
 
-  .task-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .task-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
   .task-item {
     display: flex; align-items: flex-start; gap: 8px;
-    padding: 7px 10px; border-radius: 8px;
+    padding: 7px 9px; border-radius: 8px;
     background: #fafaf8; border: 1px solid rgba(0,0,0,0.05);
   }
   .task-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    flex-shrink: 0; margin-top: 4px;
+    width: 7px; height: 7px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 5px;
   }
   .task-body { flex: 1; min-width: 0; }
   .task-name {
     font-size: 12px; color: #1a1a18; line-height: 1.4;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    word-break: break-word;
   }
   .task-name.done { text-decoration: line-through; color: #9b9b97; }
   .task-meta {
-    display: flex; align-items: center; gap: 6px; margin-top: 3px; flex-wrap: wrap;
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 3px; flex-wrap: wrap;
   }
-  .task-avance {
-    font-size: 11px; font-weight: 600;
-  }
-  .task-fecha {
-    font-size: 11px; color: #9b9b97;
-    display: flex; align-items: center; gap: 3px;
+  .task-avance { font-size: 11px; font-weight: 700; }
+  .task-fecha  { font-size: 11px; color: #9b9b97; }
+  .task-state-badge {
+    font-size: 10px; padding: 1px 6px; border-radius: 99px; font-weight: 700;
   }
   .task-detalle {
-    font-size: 11px; color: #6b6b67; margin-top: 3px;
-    font-style: italic;
+    font-size: 11px; color: #6b6b67; margin-top: 3px; font-style: italic;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 
   /* ── FOOTER ── */
   .footer {
-    padding: 0.75rem 1.5rem;
+    padding: 0.65rem 1.25rem;
     font-size: 11px; color: #9b9b97;
     border-top: 1px solid rgba(0,0,0,0.07);
     background: #fafaf8;
-    display: flex; justify-content: space-between;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;
   }
 
+  /* ══════════════════════════════
+     RESPONSIVE BREAKPOINTS
+  ══════════════════════════════ */
+
+  /* Tablet: 5-col metrics → 3+2 */
   @media (max-width: 600px) {
-    .metrics-row { grid-template-columns: repeat(3, 1fr); }
-    .detail-grid { grid-template-columns: 1fr; }
+    body { padding: 0.75rem 0.5rem; }
+
+    .report-header { padding: 1rem; }
+    .report-title  { font-size: 16px; }
+
+    /* metrics: 3 on top, 2 centered below */
+    .metrics-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      padding: 0.75rem 1rem;
+    }
+    .metric-card:nth-child(4),
+    .metric-card:nth-child(5) {
+      grid-column: span 1;
+    }
+    /* Reflow last two to a 2-col sub-row */
+    .metrics-row {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .metric-card:nth-child(1) { grid-column: 1 / 3; }
+    .metric-card:nth-child(2) { grid-column: 3 / 5; }
+    .metric-card:nth-child(3) { grid-column: 5 / 7; }
+    .metric-card:nth-child(4) { grid-column: 1 / 4; }
+    .metric-card:nth-child(5) { grid-column: 4 / 7; }
+
+    /* Hide desktop table, show card list */
+    .table-wrap    { display: none; }
+    .summary-cards { display: flex; }
+
+    /* Detail: single column */
+    .detail-grid   { grid-template-columns: 1fr; }
+
+    .section-label { padding: 0.75rem 1rem 0.3rem; }
+    .table-wrap    { padding: 0 1rem 1rem; }
+    .footer        { padding: 0.65rem 1rem; }
+  }
+
+  /* Very small phones */
+  @media (max-width: 380px) {
+    .metric-value { font-size: 18px; }
+    .metric-label { font-size: 9px; }
+    .report-title { font-size: 15px; }
   }
 </style>
 </head>
@@ -202,26 +254,31 @@
     <div class="metric-card"><div class="metric-value mv-green">70%</div><div class="metric-label">Cumplimiento global</div></div>
   </div>
 
-  <!-- SUMMARY TABLE -->
+  <!-- SECTION LABEL -->
   <div class="section-label">Resumen por responsable</div>
+
+  <!-- DESKTOP TABLE -->
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th class="col-name">Responsable</th>
-          <th class="col-total">Total</th>
-          <th class="col-comp">Comp.</th>
-          <th class="col-proc">En proc.</th>
-          <th class="col-noinit">No inic.</th>
-          <th class="col-pct">Cumplimiento</th>
+          <th style="width:18%">Responsable</th>
+          <th style="width:8%;text-align:center">Total</th>
+          <th style="width:9%;text-align:center">Comp.</th>
+          <th style="width:10%;text-align:center">En proc.</th>
+          <th style="width:10%;text-align:center">No inic.</th>
+          <th>Cumplimiento</th>
         </tr>
       </thead>
       <tbody id="summaryBody"></tbody>
     </table>
   </div>
 
+  <!-- MOBILE CARD LIST -->
+  <div class="summary-cards" id="summaryCards"></div>
+
   <!-- DETAIL SECTION -->
-  <div class="section-label" style="padding-top:1.2rem;">Detalle de tareas por responsable</div>
+  <div class="section-label" style="padding-top:1.1rem; border-top:1px solid rgba(0,0,0,0.07);">Detalle de tareas por responsable</div>
   <div class="detail-grid" id="detailGrid"></div>
 
   <!-- FOOTER -->
@@ -249,19 +306,20 @@ const summary = [
 summary.sort((a,b)=>(b.comp/b.total)-(a.comp/a.total));
 
 function barColor(p){ return p>=80?'#639922':p>=50?'#BA7517':'#E24B4A'; }
-function badgeCls(p){ return p>=80?'bg-green':p>=50?'bg-amber':'bg-red'; }
+function pctBadge(p){ return p>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:p>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'}; }
 
+/* ── desktop table rows ── */
 const tbody = document.getElementById('summaryBody');
 summary.forEach(p=>{
   const pct=Math.round(p.comp/p.total*100);
   const tr=document.createElement('tr');
   tr.innerHTML=`
-    <td class="col-name">${p.name}</td>
-    <td class="col-total">${p.total}</td>
-    <td class="col-comp"><span class="badge bg-green">${p.comp}</span></td>
-    <td class="col-proc"><span class="badge bg-amber">${p.proc}</span></td>
-    <td class="col-noinit"><span class="badge ${p.noinit>0?'bg-red':'bg-gray'}">${p.noinit}</span></td>
-    <td class="col-pct">
+    <td style="font-weight:700">${p.name}</td>
+    <td style="text-align:center">${p.total}</td>
+    <td style="text-align:center"><span class="badge bg-green">${p.comp}</span></td>
+    <td style="text-align:center"><span class="badge bg-amber">${p.proc}</span></td>
+    <td style="text-align:center"><span class="badge ${p.noinit>0?'bg-red':'bg-gray'}">${p.noinit}</span></td>
+    <td>
       <div class="bar-wrap">
         <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
         <span class="bar-pct">${pct}%</span>
@@ -270,7 +328,32 @@ summary.forEach(p=>{
   tbody.appendChild(tr);
 });
 
-/* ─── DETAIL DATA ─── */
+/* ── mobile card list ── */
+const cardsEl = document.getElementById('summaryCards');
+summary.forEach(p=>{
+  const pct = Math.round(p.comp/p.total*100);
+  const pc  = pctBadge(pct);
+  const div = document.createElement('div');
+  div.className='sc-item';
+  div.innerHTML=`
+    <div class="sc-top">
+      <span class="sc-name">${p.name}</span>
+      <span class="sc-pct" style="background:${pc.bg};color:${pc.fg};">${pct}%</span>
+    </div>
+    <div class="sc-pills">
+      <span class="sc-pill bg-gray"><span>Total</span>${p.total}</span>
+      <span class="sc-pill bg-green"><span>Comp.</span>${p.comp}</span>
+      <span class="sc-pill bg-amber"><span>En proc.</span>${p.proc}</span>
+      ${p.noinit>0?`<span class="sc-pill bg-red"><span>No inic.</span>${p.noinit}</span>`:''}
+    </div>
+    <div class="sc-bar-wrap">
+      <div class="sc-bar-bg"><div class="sc-bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
+      <span style="font-size:11px;font-weight:700;color:#6b6b67;min-width:30px;text-align:right;">${pct}%</span>
+    </div>`;
+  cardsEl.appendChild(div);
+});
+
+/* ── DETAIL DATA ── */
 const detail = {
   "Mauricio":[
     {t:"Cambiar dirección a sistema de eslabones",a:"100%",f:"21 mar",e:"Hecho",d:""},
@@ -284,8 +367,8 @@ const detail = {
   "Pedro":[
     {t:"Código ArduinIDE",a:"100%",f:"21 mar",e:"Hecho",d:"Código para pruebas con arduino."},
     {t:"Comunicación serial arduino - VM ROS2",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación con topics de ROS2."},
-    {t:"Configurar VM para Arduino",a:"100%",f:"18 mar",e:"Hecho",d:"Lectura del puerto COM del Arduino en la VM."},
-    {t:"Comunicación serial arduino - VM Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial via Python por puerto habilitado."},
+    {t:"Configurar VM para Arduino",a:"100%",f:"18 mar",e:"Hecho",d:"Lectura del puerto COM en la VM."},
+    {t:"Comunicación serial arduino - VM Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial via Python."},
     {t:"Configurar VM para STM32",a:"100%",f:"20 mar",e:"Hecho",d:""},
     {t:"Comunicación serial STM32 - VM Python",a:"100%",f:"21 mar",e:"Hecho",d:""},
   ],
@@ -306,18 +389,18 @@ const detail = {
     {t:"Instalación de accesorios robot Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Cambio luces RGB por Neon RD2 policía",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Verificación de encendido Robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:"Cable principal negativo suelto, corregido."},
-    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho",d:"Prescintado de cables de control STM y controlador motor."},
+    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho",d:"Prescintado cables STM y controlador motor."},
     {t:"Instalación fuente 3.3V robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:""},
     {t:"Limpieza y verificación módulos RD2 policía",a:"100%",f:"20 mar",e:"Hecho",d:""},
     {t:"Desmontaje electrónica RD2 policía (pintura)",a:"100%",f:"20 mar",e:"Hecho",d:""},
     {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo en controlador de giro."},
     {t:"Cambio luces guiñadores RD2 policía",a:"50%",f:"16–20 mar",e:"Hecho",d:""},
+    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
+    {t:"Verificar sistema Bounding (2)",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Informe cambios RD2 policía para mando RC",a:"—",f:"21 mar",e:"En curso",d:""},
     {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
     {t:"Pruebas micrófono y altavoz",a:"50%",f:"21 mar",e:"En curso",d:"Instalación software de sonido."},
     {t:"Montaje electrónico JPAC 2",a:"50%",f:"—",e:"En curso",d:"Montaje módulos de alimentación y borneras."},
-    {t:"Realizar conducción satisfactoria RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Verificar sistema Bounding (2)",a:"100%",f:"21 mar",e:"Hecho",d:""},
   ],
   "Douglas":[
     {t:"Terminar de añadir colegas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
@@ -336,7 +419,7 @@ const detail = {
   "Ronny":[
     {t:"Controlar puertas y luces Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
     {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo en controlador de giro."},
+    {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo controlador de giro."},
     {t:"Armado cables faltantes control RD2 Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Armado cables datos robot mesero",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Recoger stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho",d:""},
@@ -355,12 +438,12 @@ const detail = {
   "Octavio":[
     {t:"Diseño case USB totem + impresión 3D",a:"100%",f:"—",e:"Hecho",d:"Diseñado e impreso para equipo totem."},
     {t:"Diseño base luces policiales RD2",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño a cargo de Javier, grabado por Octavio."},
+    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño Javier, grabado Octavio."},
     {t:"Impresión 3D cámara Intel RD2 (ABS)",a:"100%",f:"21 mar",e:"Hecho",d:"Para robot patrullero."},
     {t:"Corte y diseño medidas luces RD2 policía",a:"70%",f:"18 mar",e:"Hecho",d:"Diseño y replicación de medidas."},
     {t:"Prueba 2 cajas de parlante JPAC2",a:"50%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Cortar diseño cuerpo JPAC2 para 3D",a:"40%",f:"21 mar",e:"En curso",d:"Se divide el diseño para módulo de electrónica."},
-    {t:"Impresión 3D luces alarma RD2",a:"30%",f:"21 mar",e:"En curso",d:"Impresión de 7 hs aprox. (PLA)."},
+    {t:"Cortar diseño cuerpo JPAC2 para 3D",a:"40%",f:"21 mar",e:"En curso",d:"Se divide diseño para módulo de electrónica."},
+    {t:"Impresión 3D luces alarma RD2",a:"30%",f:"21 mar",e:"En curso",d:"Impresión ~7 hs (PLA)."},
     {t:"Imprimir primeras piezas cuerpo JPAC2",a:"—",f:"21 mar",e:"Por hacer",d:""},
   ],
   "Javier":[
@@ -369,25 +452,25 @@ const detail = {
     {t:"Orejas de panda para Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Diseño Totem 24\" para Termoformado",a:"100%",f:"21 mar",e:"Hecho",d:"Diseño terminado."},
     {t:"Corte MDF nuevas curvas cara Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño a cargo de Javier, grabado por Octavio."},
+    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño Javier, grabado Octavio."},
     {t:"Cortar fierros necesarios RD2 nuevo",a:"80%",f:"20 mar",e:"En curso",d:"Tubo principal RD2 cortado y soldado."},
     {t:"Fabricación totem 24\" para termoformado",a:"70%",f:"28 mar",e:"En curso",d:""},
-    {t:"Soportes transformador 12V (×4)",a:"50%",f:"21 mar",e:"En curso",d:"Solicitud adicional del equipo totem."},
+    {t:"Soportes transformador 12V (×4)",a:"50%",f:"21 mar",e:"En curso",d:"Solicitud adicional equipo totem."},
     {t:"Definir periféricos RD2 + diseño carcasas",a:"30%",f:"28 mar",e:"En curso",d:""},
   ],
   "Emanuel":[
     {t:"Setup código RD2 conducción nueva",a:"100%",f:"16 mar",e:"Hecho",d:"Migrado de Arduino IDE a Express IDF para ESP32."},
-    {t:"Lectura datos Lidar (con José Jesus)",a:"100%",f:"16 mar",e:"Hecho",d:"Periféricos probados, sin fallas."},
+    {t:"Lectura datos Lidar (con José Jesus)",a:"100%",f:"16 mar",e:"Hecho",d:"Periféricos probados sin fallas."},
     {t:"Conexiones STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Prueba periféricos en mesa (pines + PWM)",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Armado parlantes prueba Serbot01",a:"100%",f:"16 mar",e:"Hecho",d:"Setup de parlantes para pruebas."},
-    {t:"Código Odometría sin IMU",a:"85%",f:"20 mar",e:"En curso",d:"Robot mide distancia; falta calibración."},
-    {t:"Código Odometría con IMU",a:"70%",f:"24 mar",e:"En curso",d:"Giro con IMU ok, pero queda en loop al detenerse."},
+    {t:"Código Odometría sin IMU",a:"85%",f:"20 mar",e:"En curso",d:"Mide distancia, falta calibración."},
+    {t:"Código Odometría con IMU",a:"70%",f:"24 mar",e:"En curso",d:"Giro con IMU ok, pero queda en loop."},
     {t:"Prueba movimiento motor RD2 (esp32)",a:"0%",f:"20 mar",e:"En curso",d:""},
     {t:"Prueba Odometría IMU en Galpón",a:"20%",f:"26 mar",e:"En curso",d:""},
   ],
   "Ariel":[
-    {t:"10 totems 15\" entregados con soporte POS",a:"100%",f:"21 mar",e:"Hecho",d:"2 unidades entregadas en sem 3 para completar 10."},
+    {t:"10 totems 15\" entregados con soporte POS",a:"100%",f:"21 mar",e:"Hecho",d:"2 unidades en sem 3 para completar 10."},
     {t:"Entrega primer totem Kioskbot",a:"100%",f:"21 mar",e:"Hecho",d:""},
     {t:"Cambio interruptor dos posiciones totem",a:"100%",f:"21 mar",e:"Hecho",d:"Se cambió el interruptor dañado."},
     {t:"Gestión problemas totem 15\" Coffi",a:"80%",f:"21 mar",e:"En curso",d:"Cambio de regulador de voltaje pantalla y POS."},
@@ -400,38 +483,36 @@ const detail = {
     {t:"Presentación caja chica Sem 3",a:"80%",f:"21 mar",e:"En curso",d:""},
     {t:"Corrección BD productos terminados",a:"80%",f:"21 mar",e:"En curso",d:""},
     {t:"Control de productos entregados",a:"80%",f:"21 mar",e:"En curso",d:"Subir archivos de productos entregados."},
-    {t:"Control ingreso insumos mayores Sem 3",a:"50%",f:"21 mar",e:"En curso",d:"Registrar PCs y stock de china hacia galpón."},
+    {t:"Control ingreso insumos mayores Sem 3",a:"50%",f:"21 mar",e:"En curso",d:"Registrar PCs y stock china → galpón."},
     {t:"Ordenamiento stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso",d:""},
     {t:"Actualización justificaciones de personal",a:"80%",f:"21 mar",e:"En curso",d:""},
   ],
 };
 
-const avatarColors = [
+const avatarColors=[
   {bg:'#E6F1FB',fg:'#185FA5'},{bg:'#EAF3DE',fg:'#3B6D11'},{bg:'#FAEEDA',fg:'#854F0B'},
   {bg:'#FCEBEB',fg:'#A32D2D'},{bg:'#F4C0D1',fg:'#993556'},{bg:'#E1F5EE',fg:'#0F6E56'},
   {bg:'#FAECE7',fg:'#993C1D'},{bg:'#EEEDFE',fg:'#534AB7'},{bg:'#FAC775',fg:'#633806'},
   {bg:'#C0DD97',fg:'#3B6D11'},{bg:'#B5D4F4',fg:'#0C447C'},{bg:'#F1EFE8',fg:'#5F5E5A'},
 ];
+const stateColor={Hecho:'#639922','En curso':'#BA7517','Por hacer':'#E24B4A'};
+const stateBg   ={Hecho:'#EAF3DE','En curso':'#FAEEDA','Por hacer':'#FCEBEB'};
+const stateFg   ={Hecho:'#3B6D11','En curso':'#854F0B','Por hacer':'#A32D2D'};
 
-const stateColors = { "Hecho":"#639922", "En curso":"#BA7517", "Por hacer":"#E24B4A" };
-const stateBg    = { "Hecho":"#EAF3DE", "En curso":"#FAEEDA", "Por hacer":"#FCEBEB" };
-const stateFg    = { "Hecho":"#3B6D11", "En curso":"#854F0B", "Por hacer":"#A32D2D" };
+const order=["Mauricio","Pedro","Wilber","Cristian","Douglas","Ronny","Abner","Octavio","Javier","Emanuel","Ariel","Diogo"];
+const grid=document.getElementById('detailGrid');
 
-const order = ["Mauricio","Pedro","Wilber","Cristian","Douglas","Ronny","Abner","Octavio","Javier","Emanuel","Ariel","Diogo"];
-const grid  = document.getElementById('detailGrid');
+order.forEach((name,idx)=>{
+  const tasks=detail[name]||[];
+  const s=summary.find(x=>x.name===name);
+  const pct=s?Math.round(s.comp/s.total*100):0;
+  const av=avatarColors[idx%avatarColors.length];
+  const pc=pct>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:pct>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};
+  const initials=name.slice(0,2).toUpperCase();
 
-order.forEach((name, idx) => {
-  const tasks = detail[name] || [];
-  const s = summary.find(x => x.name === name);
-  const pct = s ? Math.round(s.comp/s.total*100) : 0;
-  const av = avatarColors[idx % avatarColors.length];
-  const pc = pct>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:pct>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};
-
-  const block = document.createElement('div');
-  block.className = 'person-block';
-
-  const initials = name.slice(0,2).toUpperCase();
-  block.innerHTML = `
+  const block=document.createElement('div');
+  block.className='person-block';
+  block.innerHTML=`
     <div class="person-header">
       <div class="person-name">
         <div class="person-avatar" style="background:${av.bg};color:${av.fg};">${initials}</div>
@@ -440,25 +521,23 @@ order.forEach((name, idx) => {
       <span class="person-pct-badge" style="background:${pc.bg};color:${pc.fg};">${pct}%</span>
     </div>
     <ul class="task-list" id="tl-${name}"></ul>`;
-
   grid.appendChild(block);
 
-  const ul = block.querySelector(`#tl-${name}`);
-  tasks.forEach(tk => {
-    const dot = stateColors[tk.e] || '#9b9b97';
-    const avTxt = tk.a && tk.a !== '—' ? tk.a : '—';
-    const li = document.createElement('li');
-    li.className = 'task-item';
-    li.innerHTML = `
+  const ul=block.querySelector(`#tl-${name}`);
+  tasks.forEach(tk=>{
+    const dot=stateColor[tk.e]||'#9b9b97';
+    const li=document.createElement('li');
+    li.className='task-item';
+    li.innerHTML=`
       <div class="task-dot" style="background:${dot};"></div>
       <div class="task-body">
         <div class="task-name ${tk.e==='Hecho'?'done':''}">${tk.t}</div>
         <div class="task-meta">
-          <span class="task-avance" style="color:${dot};">${avTxt}</span>
-          ${tk.f ? `<span class="task-fecha">· ${tk.f}</span>` : ''}
-          <span class="badge" style="font-size:10px;padding:1px 6px;background:${stateBg[tk.e]||'#F1EFE8'};color:${stateFg[tk.e]||'#5F5E5A'};">${tk.e}</span>
+          <span class="task-avance" style="color:${dot};">${tk.a}</span>
+          ${tk.f?`<span class="task-fecha">· ${tk.f}</span>`:''}
+          <span class="task-state-badge" style="background:${stateBg[tk.e]||'#F1EFE8'};color:${stateFg[tk.e]||'#5F5E5A'};">${tk.e}</span>
         </div>
-        ${tk.d ? `<div class="task-detalle">${tk.d}</div>` : ''}
+        ${tk.d?`<div class="task-detalle">${tk.d}</div>`:''}
       </div>`;
     ul.appendChild(li);
   });
