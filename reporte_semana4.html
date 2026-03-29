@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte Semana 4 — Hardware Nexus</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f5f3; min-height: 100vh; padding: 1.5rem 1rem; color: #1a1a18;
+}
+.container {
+  max-width: 900px; margin: 0 auto; background: #fff;
+  border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); overflow: hidden;
+}
+
+/* header */
+.report-header {
+  padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid rgba(0,0,0,.07);
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 8px;
+}
+.report-title    { font-size: 18px; font-weight: 700; color: #1a1a18; line-height: 1.3; }
+.report-subtitle { font-size: 12px; color: #6b6b67; margin-top: 3px; }
+.report-badge    {
+  font-size: 11px; padding: 4px 10px; border-radius: 8px;
+  background: #E6F1FB; color: #185FA5; font-weight: 700;
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* metrics */
+.metrics-row {
+  display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: 6px; padding: .875rem 1.25rem;
+  background: #fafaf8; border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.metric-card {
+  background:#fff; border-radius:10px; border:1px solid rgba(0,0,0,.07);
+  padding:.7rem .4rem; text-align:center;
+}
+.metric-value { font-size:22px; font-weight:700; line-height:1.1; }
+.metric-label { font-size:10px; color:#6b6b67; margin-top:4px; line-height:1.3; }
+.mv-blue{color:#185FA5}.mv-green{color:#3B6D11}.mv-amber{color:#854F0B}
+.mv-red{color:#A32D2D}.mv-orange{color:#993C1D}
+
+/* section label */
+.section-label {
+  padding:.9rem 1.25rem .35rem; font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em; color:#9b9b97;
+}
+
+/* summary table */
+.table-wrap { padding: 0 1.25rem 1.25rem; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+thead th {
+  text-align:left; font-weight:700; font-size:10px; color:#6b6b67;
+  padding:.45rem .7rem; border-bottom:1px solid rgba(0,0,0,.08);
+  text-transform:uppercase; letter-spacing:.05em; white-space:nowrap;
+}
+tbody tr { border-bottom:1px solid rgba(0,0,0,.05); }
+tbody tr:last-child { border-bottom:none; }
+tbody tr:hover { background:#fafaf8; }
+tbody td { padding:.6rem .7rem; vertical-align:middle; }
+
+.badge {
+  display:inline-block; padding:2px 8px; border-radius:99px;
+  font-size:11px; font-weight:700; line-height:1.6;
+}
+.bg-green {background:#EAF3DE;color:#3B6D11}.bg-amber{background:#FAEEDA;color:#854F0B}
+.bg-red   {background:#FCEBEB;color:#A32D2D}.bg-gray {background:#F1EFE8;color:#5F5E5A}
+.bg-orange{background:#FDEEDD;color:#993C1D}
+
+.bar-wrap{display:flex;align-items:center;gap:6px;}
+.bar-bg  {flex:1;height:7px;background:#f0efeb;border-radius:99px;overflow:hidden;min-width:40px;}
+.bar-fill{height:100%;border-radius:99px;}
+.bar-pct {font-size:12px;font-weight:700;min-width:32px;text-align:right;color:#6b6b67;}
+
+/* mobile cards */
+.summary-cards{display:none;padding:0 1.25rem 1.25rem;flex-direction:column;gap:6px;}
+.sc-item{background:#fafaf8;border-radius:10px;border:1px solid rgba(0,0,0,.06);padding:.75rem .875rem;}
+.sc-top {display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.sc-name{font-size:14px;font-weight:700;color:#1a1a18;}
+.sc-pct {font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;}
+.sc-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
+.sc-pill{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;display:flex;align-items:center;gap:3px;}
+.sc-pill span{font-size:10px;color:inherit;opacity:.7;}
+.sc-bar-wrap{display:flex;align-items:center;gap:8px;}
+.sc-bar-bg  {flex:1;height:6px;background:#e8e7e3;border-radius:99px;overflow:hidden;}
+.sc-bar-fill{height:100%;border-radius:99px;}
+
+/* ── notes strip (Atorado/Pausado/Baja) ── */
+.notes-strip {
+  margin: 0 1.25rem .75rem;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.note-pill {
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px;
+  display: flex; align-items: center; gap: 5px;
+}
+.note-pill.warn  { background:#FFF3CD; color:#854F0B; }
+.note-pill.pause { background:#EEF0F8; color:#534AB7; }
+.note-pill.baja  { background:#FCEBEB; color:#A32D2D; }
+.note-icon { font-size: 12px; }
+
+/* detail grid */
+.detail-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+  gap:1px;background:rgba(0,0,0,.06);border-top:1px solid rgba(0,0,0,.07);
+}
+.person-block{background:#fff;padding:1rem 1.125rem;}
+.person-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
+.person-name  {font-size:14px;font-weight:700;color:#1a1a18;display:flex;align-items:center;gap:8px;}
+.person-avatar{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;flex-shrink:0;
+}
+.person-pct-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.person-baja {
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;
+  background:#FCEBEB;color:#A32D2D;
+}
+.task-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.task-item{
+  display:flex;align-items:flex-start;gap:8px;padding:7px 9px;
+  border-radius:8px;background:#fafaf8;border:1px solid rgba(0,0,0,.05);
+}
+.task-dot  {width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.task-body {flex:1;min-width:0;}
+.task-name {font-size:12px;color:#1a1a18;line-height:1.4;word-break:break-word;}
+.task-name.done{text-decoration:line-through;color:#9b9b97;}
+.task-meta {display:flex;align-items:center;gap:5px;margin-top:3px;flex-wrap:wrap;}
+.task-avance{font-size:11px;font-weight:700;}
+.task-fecha {font-size:11px;color:#9b9b97;}
+.task-state-badge{font-size:10px;padding:1px 6px;border-radius:99px;font-weight:700;}
+.task-detalle{
+  font-size:11px;color:#6b6b67;margin-top:3px;font-style:italic;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* footer */
+.footer{
+  padding:.65rem 1.25rem;font-size:11px;color:#9b9b97;
+  border-top:1px solid rgba(0,0,0,.07);background:#fafaf8;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;
+}
+
+/* responsive */
+@media(max-width:600px){
+  body{padding:.75rem .5rem;}
+  .report-header{padding:1rem;} .report-title{font-size:16px;}
+  .metrics-row{grid-template-columns:repeat(6,minmax(0,1fr));padding:.75rem 1rem;}
+  .metric-card:nth-child(1){grid-column:1/3;}.metric-card:nth-child(2){grid-column:3/5;}
+  .metric-card:nth-child(3){grid-column:5/7;}.metric-card:nth-child(4){grid-column:1/4;}
+  .metric-card:nth-child(5){grid-column:4/7;}
+  .table-wrap{display:none;}.summary-cards{display:flex;}
+  .detail-grid{grid-template-columns:1fr;}
+  .section-label{padding:.75rem 1rem .3rem;}.footer{padding:.65rem 1rem;}
+  .notes-strip{margin:0 1rem .75rem;}
+}
+@media(max-width:380px){
+  .metric-value{font-size:18px;}.metric-label{font-size:9px;}.report-title{font-size:15px;}
+}
+
+/* print */
+@media print {
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body{background:#fff!important;padding:0!important;margin:0!important;}
+  .container{max-width:100%!important;margin:0!important;border-radius:0!important;border:none!important;overflow:visible!important;}
+  @page{size:A4 landscape;margin:12mm 14mm;}
+  .report-header{page-break-after:avoid;break-after:avoid;}
+  .metrics-row{page-break-after:avoid;break-after:avoid;}
+  .table-wrap{overflow:visible!important;page-break-inside:avoid;break-inside:avoid;}
+  table{page-break-inside:auto;}
+  thead{display:table-header-group;}
+  tbody tr{page-break-inside:avoid;break-inside:avoid;}
+  .detail-grid{grid-template-columns:1fr!important;gap:0!important;background:none!important;border-top:1px solid #ddd!important;}
+  .person-block{page-break-inside:avoid!important;break-inside:avoid!important;border-bottom:1px solid #eee;padding:.75rem 1rem!important;}
+  .task-item{page-break-inside:avoid!important;break-inside:avoid!important;}
+  .task-detalle{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;}
+  .summary-cards,.footer{display:none!important;}
+  .section-label{padding:.5rem 0 .25rem!important;}
+  thead tr{background:#e6edf8!important;}
+  thead th{color:#185FA5!important;font-size:9pt!important;}
+  tbody td{font-size:9pt!important;padding:.4rem .6rem!important;}
+  .person-name{font-size:11pt!important;}
+  .task-name{font-size:9pt!important;}
+  .task-avance,.task-fecha,.task-state-badge{font-size:8pt!important;}
+  .notes-strip{page-break-after:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- REPORT HEADER -->
+  <div class="report-header">
+    <div>
+      <div class="report-title">Reporte de Desempeño — Equipo Hardware</div>
+      <div class="report-subtitle">Nexus Patio Tech · Galpón · Semana 4, Marzo 2026</div>
+    </div>
+    <span class="report-badge">24 – 28 Mar 2026</span>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-row">
+    <div class="metric-card"><div class="metric-value mv-blue">106</div><div class="metric-label">Tareas totales</div></div>
+    <div class="metric-card"><div class="metric-value mv-green">68</div><div class="metric-label">Completadas</div></div>
+    <div class="metric-card"><div class="metric-value mv-amber">31</div><div class="metric-label">En proceso</div></div>
+    <div class="metric-card"><div class="metric-value mv-red">7</div><div class="metric-label">No iniciadas</div></div>
+    <div class="metric-card"><div class="metric-value mv-amber">64%</div><div class="metric-label">Cumplimiento global</div></div>
+  </div>
+
+  <!-- NOTES: Atorado / Pausado / Baja -->
+  <div class="notes-strip" style="padding-top:.75rem;">
+    <span class="note-pill warn"><span class="note-icon">⚠</span> Atorados: Pedro (2), Cristian (1), Javier (3), Emanuel (1)</span>
+    <span class="note-pill pause"><span class="note-icon">⏸</span> Pausados: Wilber (1), Cristian (1), Javier (2)</span>
+    <span class="note-pill baja"><span class="note-icon">🏥</span> Ronny — baja médica (1 tarea completada antes de la baja)</span>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <div class="section-label">Resumen por responsable</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%">Responsable</th>
+          <th style="width:8%;text-align:center">Total</th>
+          <th style="width:9%;text-align:center">Comp.</th>
+          <th style="width:10%;text-align:center">En proc.</th>
+          <th style="width:10%;text-align:center">No inic.</th>
+          <th>Cumplimiento</th>
+        </tr>
+      </thead>
+      <tbody id="summaryBody"></tbody>
+    </table>
+  </div>
+
+  <!-- MOBILE CARDS -->
+  <div class="summary-cards" id="summaryCards"></div>
+
+  <!-- DETAIL -->
+  <div class="section-label" style="padding-top:1.1rem;border-top:1px solid rgba(0,0,0,.07);">
+    Detalle de tareas por responsable
+  </div>
+  <div class="detail-grid" id="detailGrid"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>Fuente: Notion — Seguimiento Objetivos Semana 4</span>
+    <span>Generado: 29 mar 2026</span>
+  </div>
+
+</div>
+
+<script>
+/* ═══ DATA ═══ */
+const summary = [
+  {name:"Mauricio",total:7, comp:7, proc:0,noinit:0},
+  {name:"Diogo",   total:8, comp:7, proc:1,noinit:0},
+  {name:"Douglas", total:11,comp:9, proc:0,noinit:2},
+  {name:"Javier",  total:18,comp:13,proc:5,noinit:0},
+  {name:"Wilber",  total:14,comp:10,proc:3,noinit:1},
+  {name:"Octavio", total:11,comp:7, proc:4,noinit:0},
+  {name:"Emanuel", total:8, comp:5, proc:2,noinit:1},
+  {name:"Cristian",total:7, comp:4, proc:3,noinit:0},
+  {name:"Pedro",   total:7, comp:3, proc:3,noinit:1},
+  {name:"Ronny",   total:1, comp:1, proc:0,noinit:0},
+  {name:"Abner",   total:7, comp:1, proc:5,noinit:1},
+  {name:"Ariel",   total:7, comp:1, proc:5,noinit:1},
+];
+// sorted by pct desc already
+
+const detail = {
+  "Mauricio":[
+    {t:"Soporte para electroiman",                        a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"4 planchas para mini pcs",                        a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Impresion camara de intel",                       a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Soportes de ultrasónicos para JPAC1",             a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Soporte del lidar para jpac1",                    a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Soporte de pantalla 7\" para jpac1",              a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Case PSA para equipo de embebidos",               a:"100%",f:"28 mar",e:"Hecho",  d:""},
+  ],
+  "Pedro":[
+    {t:"Diseño - Shield STM32",                           a:"100%",f:"24 mar",e:"Hecho",  d:""},
+    {t:"Lectura odom",                                    a:"100%",f:"26 mar",e:"Hecho",  d:""},
+    {t:"Colocación de cable canal",                       a:"100%",f:"26 mar",e:"Hecho",  d:""},
+    {t:"Realizar Mapeo en Megacenter",                    a:"20%", f:"14 mar",e:"En curso",d:""},
+    {t:"Fabricación - Shield STM32",                      a:"50%", f:"28 mar",e:"Atorado", d:"Pendiente de materiales/componentes."},
+    {t:"Pruebas y Validación - Shield STM32",             a:"0%",  f:"28 mar",e:"Atorado", d:"Bloqueado por fabricación pendiente."},
+    {t:"Alzar Docker",                                    a:"0%",  f:"28 mar",e:"Por hacer",d:""},
+  ],
+  "Wilber":[
+    {t:"Realizacion de 1 chasis mas de Jpac2",            a:"100%",f:"21 mar",e:"Hecho",  d:""},
+    {t:"Corte en alubón para JP2",                        a:"100%",f:"23 mar",e:"Hecho",  d:""},
+    {t:"RECOGER PIEZAS CORTADAS DE IND. FRANCO",          a:"100%",f:"25 mar",e:"Hecho",  d:""},
+    {t:"RECOGER MATERIAL DE FERROTODO y cotización pintura llantas", a:"100%",f:"26 mar",e:"Hecho",d:""},
+    {t:"Soldadura soporte motores Robot mesero + calibración amperímetro", a:"100%",f:"23–27 mar",e:"Hecho",d:""},
+    {t:"Fabricación pedestal Sicilia Italian Food para totem 15\"", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Sacar medida nueva caja Totem y cotizar plastofores", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Comprar 40 plastofores con medidas nuevas",       a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Cortar fierros necesarios para RD2 nuevo",        a:"80%", f:"28 mar",e:"Hecho",  d:""},
+    {t:"Ir a instalar pedestal + totem Sicilia Food",     a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"10 Chasis robot Dinner soldados y pintados",      a:"50%", f:"31 mar",e:"En curso",d:""},
+    {t:"Avance 50% Chasis de JPAC1",                      a:"20%", f:"31 mar",e:"En curso",d:""},
+    {t:"Fabricación pedestal totem 15\" exteriores",      a:"—",   f:"27 mar",e:"Pausado", d:"En espera de definición de diseño."},
+    {t:"Realizar 10 plastofores cajas totems 15\" pequeñas", a:"—",f:"28 mar",e:"Por hacer",d:""},
+  ],
+  "Cristian":[
+    {t:"Retiro de piezas RD2 Pibe → conducción galpón",  a:"100%",f:"25–27 mar",e:"Hecho",  d:""},
+    {t:"Envio de RD2 policía a taller de Chaperio",       a:"100%",f:"28 mar",  e:"Hecho",  d:""},
+    {t:"Cableado robot JPAC2 + soldadura terminales",     a:"100%",f:"23–27 mar",e:"Hecho",  d:""},
+    {t:"Soldadura soporte motores Robot mesero + calibración", a:"100%",f:"23–27 mar",e:"Hecho",d:""},
+    {t:"Ensamble de electrónica para RD2 Pibe",           a:"60%", f:"—",       e:"En curso",d:""},
+    {t:"Pruebas de manejo de RD2 Pibe",                   a:"20%", f:"28 mar",  e:"Atorado", d:"Bloqueado por ensamble en curso."},
+    {t:"Grabación del video RD2 policía",                 a:"70%", f:"28 mar",  e:"Pausado", d:"Pendiente de condiciones para grabación."},
+  ],
+  "Douglas":[
+    {t:"Ordenamiento de Stock de insumos por proyecto",   a:"100%",f:"21 mar",e:"Hecho",  d:""},
+    {t:"Gestión problemas totem 15\" Coffi",              a:"100%",f:"21 mar",e:"Hecho",  d:""},
+    {t:"Actualización de justificaciones de personal",    a:"100%",f:"27 mar",e:"Hecho",  d:""},
+    {t:"Comprar 40 plastofores con medidas nuevas",       a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Enviar compromiso semanal Semana 4 Marzo",        a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Realizar filtrado de lista de compras de Amazon", a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Enviar correo compra mes starlink con tarjeta",   a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Presupuesto estructura metálica totem 15\" Grupo Wende", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Pasar precios CNC router, laser e impresoras para seguro", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Encargar luces para robots con proveedor local",  a:"—",   f:"28 mar",e:"Por hacer",d:""},
+    {t:"Pasar nueva lista compra de Amazon",              a:"—",   f:"28 mar",e:"Por hacer",d:""},
+  ],
+  "Ronny":[
+    {t:"Retiro de piezas RD2 Pibe → conducción galpón",  a:"100%",f:"25–27 mar",e:"Hecho",d:"Completado antes de iniciar baja médica."},
+  ],
+  "Abner":[
+    {t:"Gestión problemas totem 15\" Coffi",              a:"100%",f:"21 mar",e:"Hecho",   d:""},
+    {t:"Entrega 3 totems 15\" terminados",                a:"20%", f:"21 mar",e:"En curso", d:"Total acumulado: 13 unidades Lote 2."},
+    {t:"Entrega 1 totem 24\" ID #002",                    a:"50%", f:"21 mar",e:"En curso", d:""},
+    {t:"Entrega 2 totems más de 15\" terminados",         a:"—",   f:"28 mar",e:"En curso", d:""},
+    {t:"Entrega 1 totem 24\" ID003",                      a:"—",   f:"28 mar",e:"En curso", d:""},
+    {t:"Realizar orificios 3 totems 24\" en bruto",       a:"—",   f:"28 mar",e:"En curso", d:""},
+    {t:"Mejora 2 totems, instalación hub USB",            a:"5%",  f:"28 mar",e:"Por hacer",d:""},
+  ],
+  "Octavio":[
+    {t:"Propuesta de jpac1 (boceto)",                     a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Pasar precios CNC router, laser e impresoras para seguro", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Hacer mediciones del JPAC1 para Rudy",            a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Plancha parte superior JPAC1 de MDF",             a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Brazo robótico para el JPAC1",                    a:"100%",f:"—",     e:"Hecho",  d:""},
+    {t:"Diseño de escuadra para avance de Wilber",        a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Impresión de escuadra a medida para Wilber",      a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Imprimir primeras piezas cuerpo JPAC2",           a:"80%", f:"21 mar",e:"En curso",d:""},
+    {t:"Impresión JPAC2 — 4 partes (molde electrónica)",  a:"50%", f:"28 mar",e:"En curso",d:""},
+    {t:"Impresión 3D cámaras delanteras",                 a:"50%", f:"28 mar",e:"En curso",d:""},
+    {t:"Prueba de sistema de puerta",                     a:"20%", f:"14 mar",e:"En curso",d:""},
+  ],
+  "Javier":[
+    {t:"Corte en alubón para JP2",                        a:"100%",f:"23 mar",e:"Hecho",  d:""},
+    {t:"Fabricación pedestal Sicilia Italian Food totem 15\"", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Diseño de pedestal para totem Sicilia",           a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Diseño periférico RD2: LiDar",                    a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Diseño periférico RD2: Cámara 180° delantera",    a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Diseño periférico RD2: Cámara 180° trasera",      a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Diseño periférico RD2: Cámara Intel profundidad", a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Diseño periférico RD2: Soporte chapa electromagnética", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Cambio repuestos + mantenimiento Ender3 S1 Plus", a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Pasar precios CNC router, laser e impresoras para seguro", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"4 soportes de cargadores",                        a:"20%", f:"14 mar",e:"Hecho",  d:""},
+    {t:"Cortar fierros necesarios para RD2 nuevo",        a:"80%", f:"28 mar",e:"Hecho",  d:""},
+    {t:"Diseño periférico RD2: Sensor ultrasónico",       a:"0%",  f:"28 mar",e:"Hecho",  d:""},
+    {t:"Fabricación totem 24\" para termoformado",        a:"70%", f:"28 mar",e:"Pausado", d:"En espera de material termoformado."},
+    {t:"Fabricación pedestal totem 15\" exteriores",      a:"—",   f:"27 mar",e:"Pausado", d:"En espera de definición de diseño."},
+    {t:"Diseño periférico RD2: Luz delantera",            a:"0%",  f:"28 mar",e:"Atorado", d:"Pendiente de decisión de componente."},
+    {t:"Diseño periférico RD2: GPS",                      a:"0%",  f:"28 mar",e:"Atorado", d:"Pendiente de elección de módulo GPS."},
+    {t:"Definir nueva chapa totems + cotización",         a:"80%", f:"28 mar",e:"Atorado", d:"Esperando cotización de proveedor."},
+  ],
+  "Emanuel":[
+    {t:"Solución a wifi de nuevas Nvidia",                a:"100%",f:"23 mar",e:"Hecho",  d:""},
+    {t:"Realizar backup código en GitHub",                a:"100%",f:"23 mar",e:"Hecho",  d:""},
+    {t:"Setup nuevo para Nvidia RD2",                     a:"100%",f:"24 mar",e:"Hecho",  d:""},
+    {t:"Investigación de GPS para uso con ESP32",         a:"100%",f:"25 mar",e:"Hecho",  d:""},
+    {t:"Prueba de movimiento motor RD2 (esp32)",          a:"100%",f:"25 mar",e:"Hecho",  d:""},
+    {t:"Realizar Mapeo en Megacenter",                    a:"20%", f:"14 mar",e:"En curso",d:""},
+    {t:"Prueba Odometría con IMU en Galpón",              a:"50%", f:"26 mar",e:"Atorado", d:"Bloqueado por calibración pendiente."},
+    {t:"Pruebas finales conducción Serbot01 con Odometría", a:"—", f:"—",     e:"Por hacer",d:""},
+  ],
+  "Ariel":[
+    {t:"Gestión problemas totem 15\" Coffi",              a:"100%",f:"21 mar",e:"Hecho",   d:""},
+    {t:"Entrega 3 totems 15\" terminados",                a:"20%", f:"21 mar",e:"En curso", d:"Total acumulado: 13 unidades Lote 2."},
+    {t:"Entrega 1 totem 24\" ID #002",                    a:"50%", f:"21 mar",e:"En curso", d:""},
+    {t:"Entrega 2 totems más de 15\" terminados",         a:"—",   f:"28 mar",e:"En curso", d:""},
+    {t:"Entrega 1 totem 24\" ID003",                      a:"—",   f:"28 mar",e:"En curso", d:""},
+    {t:"Realizar orificios 3 totems 24\" en bruto",       a:"—",   f:"28 mar",e:"En curso", d:""},
+    {t:"Mejora 2 totems, instalación hub USB",            a:"5%",  f:"28 mar",e:"Por hacer",d:""},
+  ],
+  "Diogo":[
+    {t:"Ordenamiento de Stock de insumos por proyecto",   a:"100%",f:"21 mar",e:"Hecho",  d:""},
+    {t:"Actualización de justificaciones de personal",    a:"100%",f:"27 mar",e:"Hecho",  d:""},
+    {t:"Investigación nuevo régimen impuesto emprendedor", a:"100%",f:"28 mar",e:"Hecho", d:""},
+    {t:"Comprar 40 plastofores con medidas nuevas",       a:"100%",f:"28 mar",e:"Hecho",  d:""},
+    {t:"Enviar solicitudes de compra a Yamil (martes mediodía)", a:"100%",f:"28 mar",e:"Hecho",d:""},
+    {t:"Presentación de caja chica Sem 4",                a:"100%",f:"27 mar",e:"Hecho",  d:""},
+    {t:"Llevar control ingreso insumos mayores Sem 4",    a:"100%",f:"27 mar",e:"Hecho",  d:""},
+    {t:"Presentación de Facturas y recibos compra Yamil", a:"90%", f:"30 mar",e:"En curso",d:""},
+  ],
+};
+
+const ORDER = ["Mauricio","Diogo","Douglas","Javier","Wilber","Octavio",
+               "Emanuel","Cristian","Pedro","Ronny","Abner","Ariel"];
+
+const avatarColors=[
+  {bg:'#E6F1FB',fg:'#185FA5'},{bg:'#EAF3DE',fg:'#3B6D11'},{bg:'#FAEEDA',fg:'#854F0B'},
+  {bg:'#FCEBEB',fg:'#A32D2D'},{bg:'#F4C0D1',fg:'#993556'},{bg:'#E1F5EE',fg:'#0F6E56'},
+  {bg:'#FAECE7',fg:'#993C1D'},{bg:'#EEEDFE',fg:'#534AB7'},{bg:'#FAC775',fg:'#633806'},
+  {bg:'#C0DD97',fg:'#3B6D11'},{bg:'#B5D4F4',fg:'#0C447C'},{bg:'#F1EFE8',fg:'#5F5E5A'},
+];
+
+// State colours — includes Atorado and Pausado
+const stateColor  = {Hecho:'#639922','En curso':'#BA7517','Por hacer':'#E24B4A','Atorado':'#993C1D','Pausado':'#534AB7'};
+const stateBg     = {Hecho:'#EAF3DE','En curso':'#FAEEDA','Por hacer':'#FCEBEB','Atorado':'#FDEEDD','Pausado':'#EEEDFE'};
+const stateFg     = {Hecho:'#3B6D11','En curso':'#854F0B','Por hacer':'#A32D2D','Atorado':'#993C1D','Pausado':'#534AB7'};
+
+function barColor(p){return p>=80?'#639922':p>=50?'#BA7517':'#E24B4A';}
+function pctBadge(p){return p>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:p>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};}
+
+/* ── summary table ── */
+const sorted = [...summary].sort((a,b)=>(b.comp/b.total)-(a.comp/a.total));
+const tbody = document.getElementById('summaryBody');
+sorted.forEach(p => {
+  const pct = Math.round(p.comp/p.total*100);
+  const isRonny = p.name === 'Ronny';
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="font-weight:700">${p.name}${isRonny?' <span style="font-size:10px;color:#A32D2D;font-weight:600;">(baja médica)</span>':''}</td>
+    <td style="text-align:center">${p.total}</td>
+    <td style="text-align:center"><span class="badge bg-green">${p.comp}</span></td>
+    <td style="text-align:center"><span class="badge bg-amber">${p.proc}</span></td>
+    <td style="text-align:center"><span class="badge ${p.noinit>0?'bg-red':'bg-gray'}">${p.noinit}</span></td>
+    <td><div class="bar-wrap">
+      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
+      <span class="bar-pct">${pct}%</span>
+    </div></td>`;
+  tbody.appendChild(tr);
+});
+
+/* ── mobile cards ── */
+const cardsEl = document.getElementById('summaryCards');
+sorted.forEach(p => {
+  const pct = Math.round(p.comp/p.total*100), pc = pctBadge(pct);
+  const div = document.createElement('div'); div.className='sc-item';
+  div.innerHTML = `
+    <div class="sc-top"><span class="sc-name">${p.name}</span>
+      <span class="sc-pct" style="background:${pc.bg};color:${pc.fg};">${pct}%</span></div>
+    <div class="sc-pills">
+      <span class="sc-pill bg-gray"><span>Total</span>${p.total}</span>
+      <span class="sc-pill bg-green"><span>Comp.</span>${p.comp}</span>
+      <span class="sc-pill bg-amber"><span>En proc.</span>${p.proc}</span>
+      ${p.noinit>0?`<span class="sc-pill bg-red"><span>No inic.</span>${p.noinit}</span>`:''}
+    </div>
+    <div class="sc-bar-wrap">
+      <div class="sc-bar-bg"><div class="sc-bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
+      <span style="font-size:11px;font-weight:700;color:#6b6b67;min-width:30px;text-align:right;">${pct}%</span>
+    </div>`;
+  cardsEl.appendChild(div);
+});
+
+/* ── detail blocks ── */
+const grid = document.getElementById('detailGrid');
+ORDER.forEach((name, idx) => {
+  const tasks = detail[name] || [];
+  const s     = summary.find(x => x.name === name);
+  const pct   = s ? Math.round(s.comp/s.total*100) : 0;
+  const av    = avatarColors[idx % avatarColors.length];
+  const pc    = pct>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:pct>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};
+  const isRonny = name === 'Ronny';
+
+  const block = document.createElement('div');
+  block.className = 'person-block';
+  block.innerHTML = `
+    <div class="person-header">
+      <div class="person-name">
+        <div class="person-avatar" style="background:${av.bg};color:${av.fg};">${name.slice(0,2).toUpperCase()}</div>
+        ${name}
+      </div>
+      ${isRonny
+        ? `<span class="person-baja">🏥 Baja médica</span>`
+        : `<span class="person-pct-badge" style="background:${pc.bg};color:${pc.fg};">${pct}%</span>`}
+    </div>
+    <ul class="task-list" id="tl-${name}"></ul>`;
+  grid.appendChild(block);
+
+  const ul = block.querySelector(`#tl-${name}`);
+  tasks.forEach(tk => {
+    const dot = stateColor[tk.e] || '#9b9b97';
+    const li  = document.createElement('li'); li.className = 'task-item';
+    li.innerHTML = `
+      <div class="task-dot" style="background:${dot};"></div>
+      <div class="task-body">
+        <div class="task-name ${tk.e==='Hecho'?'done':''}">${tk.t}</div>
+        <div class="task-meta">
+          <span class="task-avance" style="color:${dot};">${tk.a}</span>
+          ${tk.f ? `<span class="task-fecha">· ${tk.f}</span>` : ''}
+          <span class="task-state-badge" style="background:${stateBg[tk.e]||'#F1EFE8'};color:${stateFg[tk.e]||'#5F5E5A'};">${tk.e}</span>
+        </div>
+        ${tk.d ? `<div class="task-detalle">${tk.d}</div>` : ''}
+      </div>`;
+    ul.appendChild(li);
+  });
+});
+</script>
+</body>
+</html>
