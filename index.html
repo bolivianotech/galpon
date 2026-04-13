@@ -3,13 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte Semana 3 — Hardware Nexus</title>
+<title>Reporte Semana 6 (2 Abril) — Hardware Nexus</title>
 <style>
-/* ═══════════════════════════════════
-   SCREEN STYLES
-═══════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: #f5f5f3; min-height: 100vh; padding: 1.5rem 1rem; color: #1a1a18;
@@ -18,21 +14,6 @@ body {
   max-width: 900px; margin: 0 auto; background: #fff;
   border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); overflow: hidden;
 }
-
-/* export bar */
-.export-bar {
-  padding: .75rem 1.25rem; background: #fafaf8;
-  border-bottom: 1px solid rgba(0,0,0,.07);
-  display: flex; justify-content: flex-end; align-items: center; gap: 10px;
-}
-.btn-pdf {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 7px 18px; border-radius: 8px; border: none; cursor: pointer;
-  font-size: 13px; font-weight: 700; font-family: inherit;
-  background: #185FA5; color: #fff; transition: background .15s;
-}
-.btn-pdf:hover { background: #0C447C; }
-.btn-pdf svg { width:15px; height:15px; fill:currentColor; flex-shrink:0; }
 
 /* header */
 .report-header {
@@ -48,6 +29,16 @@ body {
   white-space: nowrap; flex-shrink: 0;
 }
 
+/* alert banner */
+.alert-banner {
+  margin: 0; padding: .7rem 1.25rem;
+  background: #FFF3CD; border-bottom: 1px solid #F0D060;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.alert-text { font-size: 12px; color: #6b4000; line-height: 1.5; }
+.alert-text strong { font-weight: 700; }
+
 /* metrics */
 .metrics-row {
   display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
@@ -60,7 +51,8 @@ body {
 }
 .metric-value { font-size:22px; font-weight:700; line-height:1.1; }
 .metric-label { font-size:10px; color:#6b6b67; margin-top:4px; line-height:1.3; }
-.mv-blue{color:#185FA5}.mv-green{color:#3B6D11}.mv-amber{color:#854F0B}.mv-red{color:#A32D2D}
+.mv-blue  { color:#185FA5 } .mv-green { color:#3B6D11 } .mv-amber { color:#854F0B }
+.mv-red   { color:#A32D2D } .mv-gray  { color:#5F5E5A }
 
 /* section label */
 .section-label {
@@ -85,64 +77,80 @@ tbody td { padding:.6rem .7rem; vertical-align:middle; }
   display:inline-block; padding:2px 8px; border-radius:99px;
   font-size:11px; font-weight:700; line-height:1.6;
 }
-.bg-green{background:#EAF3DE;color:#3B6D11}.bg-amber{background:#FAEEDA;color:#854F0B}
-.bg-red  {background:#FCEBEB;color:#A32D2D}.bg-gray {background:#F1EFE8;color:#5F5E5A}
+.bg-green  { background:#EAF3DE; color:#3B6D11 }
+.bg-amber  { background:#FAEEDA; color:#854F0B }
+.bg-red    { background:#FCEBEB; color:#A32D2D }
+.bg-gray   { background:#F1EFE8; color:#5F5E5A }
+.bg-yellow { background:#FFF3CD; color:#6b4000 }
 
-.bar-wrap{display:flex;align-items:center;gap:6px;}
-.bar-bg  {flex:1;height:7px;background:#f0efeb;border-radius:99px;overflow:hidden;min-width:40px;}
-.bar-fill{height:100%;border-radius:99px;}
-.bar-pct {font-size:12px;font-weight:700;min-width:32px;text-align:right;color:#6b6b67;}
+.bar-wrap { display:flex; align-items:center; gap:6px; }
+.bar-bg   { flex:1; height:7px; background:#f0efeb; border-radius:99px; overflow:hidden; min-width:40px; }
+.bar-fill { height:100%; border-radius:99px; }
+.bar-pct  { font-size:12px; font-weight:700; min-width:34px; text-align:right; color:#6b6b67; }
 
 /* mobile cards */
-.summary-cards{display:none;padding:0 1.25rem 1.25rem;flex-direction:column;gap:6px;}
-.sc-item{background:#fafaf8;border-radius:10px;border:1px solid rgba(0,0,0,.06);padding:.75rem .875rem;}
-.sc-top {display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.sc-name{font-size:14px;font-weight:700;color:#1a1a18;}
-.sc-pct {font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;}
-.sc-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
-.sc-pill{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;display:flex;align-items:center;gap:3px;}
-.sc-pill span{font-size:10px;color:inherit;opacity:.7;}
-.sc-bar-wrap{display:flex;align-items:center;gap:8px;}
-.sc-bar-bg  {flex:1;height:6px;background:#e8e7e3;border-radius:99px;overflow:hidden;}
-.sc-bar-fill{height:100%;border-radius:99px;}
+.summary-cards { display:none; padding:0 1.25rem 1.25rem; flex-direction:column; gap:6px; }
+.sc-item { background:#fafaf8; border-radius:10px; border:1px solid rgba(0,0,0,.06); padding:.75rem .875rem; }
+.sc-top  { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.sc-name { font-size:14px; font-weight:700; color:#1a1a18; }
+.sc-pct  { font-size:13px; font-weight:700; padding:2px 10px; border-radius:99px; }
+.sc-pills{ display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
+.sc-pill { font-size:11px; padding:2px 8px; border-radius:99px; font-weight:600; display:flex; align-items:center; gap:3px; }
+.sc-pill span { font-size:10px; color:inherit; opacity:.7; }
+.sc-bar-wrap { display:flex; align-items:center; gap:8px; }
+.sc-bar-bg   { flex:1; height:6px; background:#e8e7e3; border-radius:99px; overflow:hidden; }
+.sc-bar-fill { height:100%; border-radius:99px; }
 
 /* detail grid */
-.detail-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
-  gap:1px;background:rgba(0,0,0,.06);border-top:1px solid rgba(0,0,0,.07);
+.detail-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+  gap:1px; background:rgba(0,0,0,.06); border-top:1px solid rgba(0,0,0,.07);
 }
-.person-block{background:#fff;padding:1rem 1.125rem;}
-.person-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
-.person-name  {font-size:14px;font-weight:700;color:#1a1a18;display:flex;align-items:center;gap:8px;}
-.person-avatar{
-  width:28px;height:28px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:800;flex-shrink:0;
+.person-block { background:#fff; padding:1rem 1.125rem; }
+.person-header {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:.7rem;
 }
-.person-pct-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
-.task-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
-.task-item{
-  display:flex;align-items:flex-start;gap:8px;padding:7px 9px;
-  border-radius:8px;background:#fafaf8;border:1px solid rgba(0,0,0,.05);
+.person-name {
+  font-size:14px; font-weight:700; color:#1a1a18; display:flex; align-items:center; gap:8px;
 }
-.task-dot  {width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.task-body {flex:1;min-width:0;}
-.task-name {font-size:12px;color:#1a1a18;line-height:1.4;word-break:break-word;}
-.task-name.done{text-decoration:line-through;color:#9b9b97;}
-.task-meta {display:flex;align-items:center;gap:5px;margin-top:3px;flex-wrap:wrap;}
-.task-avance{font-size:11px;font-weight:700;}
-.task-fecha {font-size:11px;color:#9b9b97;}
-.task-state-badge{font-size:10px;padding:1px 6px;border-radius:99px;font-weight:700;}
-.task-detalle{
-  font-size:11px;color:#6b6b67;margin-top:3px;font-style:italic;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+.person-avatar {
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:800; flex-shrink:0;
+}
+.person-pct-badge { font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px; }
+.person-no-notion {
+  font-size:11px; font-weight:700; padding:3px 10px; border-radius:6px;
+  background:#FFF3CD; color:#6b4000;
+}
+
+.task-list { list-style:none; display:flex; flex-direction:column; gap:5px; }
+.task-item {
+  display:flex; align-items:flex-start; gap:8px; padding:7px 9px;
+  border-radius:8px; background:#fafaf8; border:1px solid rgba(0,0,0,.05);
+}
+.task-item.planned {
+  background:#FFFDF5; border:1px solid rgba(240,208,96,.4);
+}
+.task-dot  { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.task-body { flex:1; min-width:0; }
+.task-name { font-size:12px; color:#1a1a18; line-height:1.4; word-break:break-word; }
+.task-name.done { text-decoration:line-through; color:#9b9b97; }
+.task-name.unregistered { color:#9b9b97; font-style:italic; }
+.task-meta { display:flex; align-items:center; gap:5px; margin-top:3px; flex-wrap:wrap; }
+.task-avance { font-size:11px; font-weight:700; }
+.task-fecha  { font-size:11px; color:#9b9b97; }
+.task-state-badge { font-size:10px; padding:1px 6px; border-radius:99px; font-weight:700; }
+.task-detalle {
+  font-size:11px; color:#6b6b67; margin-top:3px; font-style:italic;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
 }
 
 /* footer */
-.footer{
-  padding:.65rem 1.25rem;font-size:11px;color:#9b9b97;
-  border-top:1px solid rgba(0,0,0,.07);background:#fafaf8;
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;
+.footer {
+  padding:.65rem 1.25rem; font-size:11px; color:#9b9b97;
+  border-top:1px solid rgba(0,0,0,.07); background:#fafaf8;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;
 }
 
 /* responsive */
@@ -150,349 +158,251 @@ tbody td { padding:.6rem .7rem; vertical-align:middle; }
   body{padding:.75rem .5rem;}
   .report-header{padding:1rem;} .report-title{font-size:16px;}
   .metrics-row{grid-template-columns:repeat(6,minmax(0,1fr));padding:.75rem 1rem;}
-  .metric-card:nth-child(1){grid-column:1/3;}.metric-card:nth-child(2){grid-column:3/5;}
-  .metric-card:nth-child(3){grid-column:5/7;}.metric-card:nth-child(4){grid-column:1/4;}
+  .metric-card:nth-child(1){grid-column:1/3;} .metric-card:nth-child(2){grid-column:3/5;}
+  .metric-card:nth-child(3){grid-column:5/7;} .metric-card:nth-child(4){grid-column:1/4;}
   .metric-card:nth-child(5){grid-column:4/7;}
-  .table-wrap{display:none;}.summary-cards{display:flex;}
+  .table-wrap{display:none;} .summary-cards{display:flex;}
   .detail-grid{grid-template-columns:1fr;}
-  .section-label{padding:.75rem 1rem .3rem;}.footer{padding:.65rem 1rem;}
-}
-@media(max-width:380px){
-  .metric-value{font-size:18px;}.metric-label{font-size:9px;}.report-title{font-size:15px;}
+  .section-label{padding:.75rem 1rem .3rem;} .footer{padding:.65rem 1rem;}
 }
 
-/* ═══════════════════════════════════
-   PRINT / PDF STYLES
-   Triggered by window.print()
-   Browser "Save as PDF" renders this
-═══════════════════════════════════ */
+/* print */
 @media print {
-  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-
-  body {
-    background: #fff !important;
-    padding: 0 !important; margin: 0 !important;
-  }
-
-  /* hide screen-only elements */
-  .export-bar    { display: none !important; }
-  .summary-cards { display: none !important; }
-
-  .container {
-    max-width: 100% !important; margin: 0 !important;
-    border-radius: 0 !important; border: none !important;
-    box-shadow: none !important; overflow: visible !important;
-  }
-
-  /* ── Page setup ── */
-  @page {
-    size: A4 landscape;
-    margin: 12mm 14mm;
-  }
-
-  /* ── Header: never break, stays on first page ── */
-  .report-header { page-break-after: avoid; break-after: avoid; }
-
-  /* ── Metrics: keep together ── */
-  .metrics-row { page-break-after: avoid; break-after: avoid; }
-
-  /* ── Summary table: thead repeats on every page automatically ── */
-  .table-wrap   { overflow: visible !important; page-break-inside: avoid; break-inside: avoid; }
-  table         { page-break-inside: auto; }
-  thead         { display: table-header-group; } /* ← repeats header on each page */
-  tbody tr      { page-break-inside: avoid; break-inside: avoid; }
-
-  /* ── Detail grid: single column for print ── */
-  .detail-grid {
-    grid-template-columns: 1fr !important;
-    gap: 0 !important;
-    background: none !important;
-    border-top: 1px solid #ddd !important;
-  }
-
-  /* ── Each person block: never cut mid-block ── */
-  .person-block {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    border-bottom: 1px solid #eee;
-    padding: .75rem 1rem !important;
-  }
-
-  /* Each task item never splits */
-  .task-item {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-
-  /* Expand truncated detail text in print */
-  .task-detalle {
-    display: block !important;
-    -webkit-line-clamp: unset !important;
-    overflow: visible !important;
-  }
-
-  /* ── Running footer via CSS counters ── */
-  .footer { display: none !important; }
-
-  /* Print page numbers */
-  .print-footer {
-    display: block !important;
-    position: running(footer);
-  }
-  @page {
-    @bottom-center {
-      content: "Nexus Patio Tech · Equipo Hardware · Semana 3 Marzo 2026  —  Pág. " counter(page) " de " counter(pages);
-      font-size: 8pt;
-      color: #9b9b97;
-    }
-    @bottom-right {
-      content: "Generado: 22 mar 2026";
-      font-size: 8pt;
-      color: #9b9b97;
-    }
-  }
-
-  /* Force background colors & images to print */
-  .report-header-band, .metrics-row, .metric-card,
-  .person-avatar, .task-dot, .badge, .bar-fill,
-  .task-state-badge, .person-pct-badge,
-  .person-header, .person-name, .task-item { }
-
-  /* Section labels visible */
-  .section-label { padding: .5rem 0 .25rem !important; }
-
-  /* Table header band prints with color */
-  thead tr { background: #e6edf8 !important; }
-  thead th  { color: #185FA5 !important; font-size: 9pt !important; }
-  tbody td  { font-size: 9pt !important; padding: .4rem .6rem !important; }
-
-  /* Person block header bg prints */
-  .person-header { padding: .4rem 0 .5rem !important; }
-  .person-name   { font-size: 11pt !important; }
-  .task-name     { font-size: 9pt !important; }
-  .task-avance, .task-fecha, .task-state-badge { font-size: 8pt !important; }
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body{background:#fff!important;padding:0!important;margin:0!important;}
+  .container{max-width:100%!important;margin:0!important;border-radius:0!important;border:none!important;overflow:visible!important;}
+  @page{size:A4 landscape;margin:12mm 14mm;}
+  .report-header,.metrics-row{page-break-after:avoid;break-after:avoid;}
+  .table-wrap{overflow:visible!important;}
+  table{page-break-inside:auto;} thead{display:table-header-group;}
+  tbody tr{page-break-inside:avoid;break-inside:avoid;}
+  .detail-grid{grid-template-columns:1fr!important;gap:0!important;background:none!important;border-top:1px solid #ddd!important;}
+  .person-block{page-break-inside:avoid!important;break-inside:avoid!important;border-bottom:1px solid #eee;padding:.75rem 1rem!important;}
+  .task-item{page-break-inside:avoid!important;break-inside:avoid!important;}
+  .task-detalle{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;}
+  .summary-cards,.footer{display:none!important;}
+  thead tr{background:#e6edf8!important;} thead th{color:#185FA5!important;font-size:9pt!important;}
+  tbody td{font-size:9pt!important;padding:.4rem .6rem!important;}
 }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- EXPORT BAR -->
-  <div class="export-bar">
-    <button class="btn-pdf" onclick="exportPDF()">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8.5 17.5v-5h1.25c.97 0 1.75.78 1.75 1.75S10.72 16 9.75 16H9.5v1.5H8.5zm3.75-3.25c0 1.52-1.12 2.75-2.5 2.75H7.5v-5.5H9.75c1.38 0 2.5 1.23 2.5 2.75zm4.25 3.25h-1v-2h-1.5v2h-1v-5h1v2h1.5v-2h1v5z"/></svg>
-      Descargar PDF
-    </button>
-  </div>
-
-  <!-- REPORT HEADER -->
+  <!-- HEADER -->
   <div class="report-header">
     <div>
       <div class="report-title">Reporte de Desempeño — Equipo Hardware</div>
-      <div class="report-subtitle">Nexus Patio Tech · Galpón · Semana 3, Marzo 2026</div>
+      <div class="report-subtitle">Nexus Patio Tech · Galpón · Semana 6, 2 Abril 2026</div>
     </div>
-    <span class="report-badge">17 – 21 Mar 2026</span>
+    <span class="report-badge">7 – 11 Abr 2026</span>
   </div>
 
-  <!-- METRICS -->
+  <!-- ALERT BANNER -->
+  <div class="alert-banner">
+    <span class="alert-icon">⚠</span>
+    <div class="alert-text">
+      <strong>Registro incompleto en Notion.</strong>
+      Solo 10 de las ~75 tareas planeadas están registradas en el sistema.
+      Las filas marcadas en amarillo son objetivos del plan semanal que <strong>no tienen registro en Notion</strong>.
+      Se requiere que el equipo suba sus tareas para tener trazabilidad real del cumplimiento.
+    </div>
+  </div>
+
+  <!-- METRICS — based on plan (75 total tasks from PDF) -->
   <div class="metrics-row">
-    <div class="metric-card"><div class="metric-value mv-blue">108</div><div class="metric-label">Tareas totales</div></div>
-    <div class="metric-card"><div class="metric-value mv-green">76</div><div class="metric-label">Completadas</div></div>
-    <div class="metric-card"><div class="metric-value mv-amber">31</div><div class="metric-label">En proceso</div></div>
-    <div class="metric-card"><div class="metric-value mv-red">1</div><div class="metric-label">No iniciadas</div></div>
-    <div class="metric-card"><div class="metric-value mv-green">70%</div><div class="metric-label">Cumplimiento global</div></div>
+    <div class="metric-card"><div class="metric-value mv-blue">75</div><div class="metric-label">Tareas planeadas</div></div>
+    <div class="metric-card"><div class="metric-value mv-green">10</div><div class="metric-label">Registradas Notion</div></div>
+    <div class="metric-card"><div class="metric-value mv-green">10</div><div class="metric-label">Completadas</div></div>
+    <div class="metric-card"><div class="metric-value mv-amber">65</div><div class="metric-label">Sin registro</div></div>
+    <div class="metric-card"><div class="metric-value mv-amber">13%</div><div class="metric-label">Cobertura Notion</div></div>
   </div>
 
   <!-- SUMMARY TABLE -->
-  <div class="section-label">Resumen por responsable</div>
+  <div class="section-label">Resumen por responsable (plan vs. Notion)</div>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th style="width:18%">Responsable</th>
-          <th style="width:8%;text-align:center">Total</th>
-          <th style="width:9%;text-align:center">Comp.</th>
-          <th style="width:10%;text-align:center">En proc.</th>
-          <th style="width:10%;text-align:center">No inic.</th>
-          <th>Cumplimiento</th>
+          <th style="width:16%">Responsable</th>
+          <th style="width:10%;text-align:center">Planeadas</th>
+          <th style="width:10%;text-align:center">En Notion</th>
+          <th style="width:10%;text-align:center">Comp.</th>
+          <th style="width:10%;text-align:center">Sin reg.</th>
+          <th>Cobertura</th>
         </tr>
       </thead>
       <tbody id="summaryBody"></tbody>
     </table>
   </div>
 
-  <!-- MOBILE CARDS (screen only) -->
+  <!-- MOBILE CARDS -->
   <div class="summary-cards" id="summaryCards"></div>
 
   <!-- DETAIL -->
   <div class="section-label" style="padding-top:1.1rem;border-top:1px solid rgba(0,0,0,.07);">
-    Detalle de tareas por responsable
+    Detalle por responsable — ✅ registrado · <span style="color:#854F0B;font-style:italic;">☐ sin registro en Notion</span>
   </div>
   <div class="detail-grid" id="detailGrid"></div>
 
-  <!-- SCREEN FOOTER -->
+  <!-- FOOTER -->
   <div class="footer">
-    <span>Fuente: Notion — Seguimiento Objetivos Semana 3</span>
-    <span>Generado: 22 mar 2026</span>
+    <span>Fuente: Notion + Objetivos Sem 2 Abril (PDF) · Semana 6</span>
+    <span>Generado: 13 abr 2026</span>
   </div>
-
-</div><!-- /container -->
+</div>
 
 <script>
-/* ═══════════════ DATA ═══════════════ */
-const summary = [
-  {name:"Mauricio",total:7, comp:7, proc:0,noinit:0},
-  {name:"Pedro",   total:6, comp:6, proc:0,noinit:0},
-  {name:"Douglas", total:12,comp:10,proc:2,noinit:0},
-  {name:"Wilber",  total:6, comp:5, proc:1,noinit:0},
-  {name:"Cristian",total:20,comp:16,proc:4,noinit:0},
-  {name:"Ronny",   total:9, comp:6, proc:3,noinit:0},
-  {name:"Abner",   total:6, comp:4, proc:2,noinit:0},
-  {name:"Octavio", total:9, comp:6, proc:2,noinit:1},
-  {name:"Javier",  total:10,comp:6, proc:4,noinit:0},
-  {name:"Emanuel", total:9, comp:5, proc:4,noinit:0},
-  {name:"Ariel",   total:6, comp:3, proc:3,noinit:0},
-  {name:"Diogo",   total:8, comp:2, proc:6,noinit:0},
-];
-summary.sort((a,b)=>(b.comp/b.total)-(a.comp/a.total));
+/* ══════════════════════════════════════════
+   DATA — plan from PDF, actuals from Notion
+══════════════════════════════════════════ */
 
-const detail = {
-  "Mauricio":[
-    {t:"Cambiar dirección a sistema de eslabones",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realización de URDF de Serbot01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Conexiones de STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño de componentes (lidar y pantalla 7\") Jpac1",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Impresion de topes para soporte de POS",a:"80%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Impresion de soporte POS",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Impresiones de planchas para mini PC",a:"100%",f:"21 mar",e:"Hecho",d:""},
-  ],
-  "Pedro":[
-    {t:"Código ArduinIDE",a:"100%",f:"21 mar",e:"Hecho",d:"Código para las pruebas con arduino."},
-    {t:"Comunicación serial arduino con VM - ROS2",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación con los topics de ROS2."},
-    {t:"Configurar VM para Arduino",a:"100%",f:"18 mar",e:"Hecho",d:"Lectura del puerto COM del Arduino en la VM."},
-    {t:"Comunicación serial arduino con VM - Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial usando código Python por puerto habilitado."},
-    {t:"Configurar VM para STM32",a:"100%",f:"20 mar",e:"Hecho",d:"Configuración para lectura del puerto COM en la VM."},
-    {t:"Comunicación serial STM32 con VM - Python",a:"100%",f:"21 mar",e:"Hecho",d:"Comunicación serial via Python por puerto habilitado."},
-  ],
+// People data: {name, planned (total from PDF), notion (in CSV), comp (Hecho in CSV)}
+const summary = [
+  {name:"Wilber",   planned:5,  notion:3,  comp:3},
+  {name:"Cristian", planned:4,  notion:2,  comp:2},
+  {name:"Javier",   planned:9,  notion:4,  comp:4},
+  {name:"Emanuel",  planned:5,  notion:1,  comp:1},
+  {name:"Diogo",    planned:7,  notion:0,  comp:0},
+  {name:"Douglas",  planned:6,  notion:0,  comp:0},
+  {name:"Pedro",    planned:6,  notion:0,  comp:0},
+  {name:"Ronny",    planned:2,  notion:0,  comp:0},
+  {name:"Ariel",    planned:5,  notion:0,  comp:0},
+  {name:"Abner",    planned:5,  notion:0,  comp:0},
+  {name:"Octavio",  planned:12, notion:0,  comp:0},
+  {name:"Mauricio", planned:10, notion:0,  comp:0},
+];
+
+// Sort: those with notion data first, then by coverage desc
+summary.sort((a,b) => {
+  const ca = a.notion > 0 ? a.comp/a.planned : -1;
+  const cb = b.notion > 0 ? b.comp/b.planned : -1;
+  return cb - ca;
+});
+
+// Notion actual tasks (sem6 only, no cancelled)
+const notionTasks = {
   "Wilber":[
-    {t:"Soldadura de soportes de tijerales",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Fabricación estructura completa soporte llanta trasera",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realización de 7 chasis de Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Corrección y alineado dirección llantas del. y tras.",a:"100%",f:"21 mar",e:"Hecho",d:"Soldadura de chasis y soportes para mayor estabilidad."},
-    {t:"Cambio de angular por perfil platino JPAC2",a:"100%",f:"20 mar",e:"Hecho",d:""},
-    {t:"Realización de 1 chasis más de Jpac2",a:"0%",f:"21 mar",e:"En curso",d:""},
+    {t:"Pedestal metálico totem de 15\" para Pedrinis",              a:"100%",f:"10 abr",  e:"Hecho"},
+    {t:"MODIFICACION DE TIJERAL DE JPAC1 2 UNIDADES",               a:"100%",f:"—",       e:"Hecho"},
+    {t:"Colocar totem al pedestal con acoples de seguridad",         a:"100%",f:"8 abr",   e:"Hecho"},
   ],
   "Cristian":[
-    {t:"Conducción satisfactoria RD2 Policía mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas ejecutadas con ajustes electrónicos y mecánicos."},
-    {t:"Verificar que funcione sistema Bounding",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
-    {t:"Controlar puertas y luces con Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
-    {t:"Cambio de luces guiñadores RD2 policía",a:"50%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Peinado de cables robot mesero",a:"100%",f:"16–20 mar",e:"Hecho",d:"Cortes y prescintado de cables de controladora STM y motor."},
-    {t:"Verificar que funciona el sistema de Bounding",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Verificación de encendido Robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:"Cable principal negativo suelto, corregido."},
-    {t:"Apertura de puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo en controlador de giro."},
-    {t:"Cambio de luces RGB por Neon RD2 policía",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Soldadura SMD módulo control Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Cambio de luces RGB por NEÓN",a:"100%",f:"21 mar",e:"Hecho",d:"Pruebas y cambio de nuevas luces NEON."},
-    {t:"Instalación de accesorios robot Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Instalación fuente 3.3V Robot mesero",a:"100%",f:"20 mar",e:"Hecho",d:"Instalación de fuente 3.3 voltios para el robot mesero."},
-    {t:"Limpieza y verificación módulos RD2 policía",a:"100%",f:"20 mar",e:"Hecho",d:"Limpieza de módulos, cables, conectores y sensores."},
-    {t:"Desmontaje electrónica RD2 policía (pintura)",a:"100%",f:"20 mar",e:"Hecho",d:"Para corrección de pintura y acabado estético."},
-    {t:"Informe cambios RD2 policía para mando RC",a:"—",f:"21 mar",e:"En curso",d:""},
-    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
-    {t:"Pruebas de micrófono y altavoz",a:"50%",f:"21 mar",e:"En curso",d:"Instalación de software de sonido y altavoz."},
-    {t:"Montaje electrónico Robot JPAC 2",a:"50%",f:"—",e:"En curso",d:"Montaje de módulos de alimentación y borneras."},
-  ],
-  "Douglas":[
-    {t:"Terminar de añadir a todos los colegas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Ordenar tareas de semana 2 y 3 en Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Realizar compromiso de objetivos semana 3",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Enseñar equipo galpón a subir tareas a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Enseñar a Diogo excel cuentas Fibrero Rudy",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Reunión con Jimmy — añadir a Notion",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Lista insumos 10 totems → Diogo",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Reunión entregas cuerpos fibra — Rudy Ribera",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Coordinar instalación UPS Megacenter (Motoclick)",a:"100%",f:"21 mar",e:"Hecho",d:"Instalación proyectada para el lunes 23."},
-    {t:"Ordenamiento de Stock por tipo de objeto",a:"100%",f:"21 mar",e:"Hecho",d:"Desarrollado por la Sra. Leny."},
-    {t:"Ordenamiento Stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Gestión problemas totem 15\" Coffi",a:"80%",f:"21 mar",e:"En curso",d:"Cambio regulador voltaje pantalla y POS."},
-  ],
-  "Ronny":[
-    {t:"Controlar puertas y luces con Mando RC",a:"100%",f:"16–20 mar",e:"Hecho",d:"Pruebas de módulos intermitentes y cableado."},
-    {t:"Conducción satisfactoria robot policía RD2",a:"100%",f:"16–20 mar",e:"Hecho",d:""},
-    {t:"Apertura puerta principal mando RC",a:"80%",f:"20 mar",e:"Hecho",d:"Pendiente módulos RC, fallo controlador de giro."},
-    {t:"Armado cables faltantes control RD2 Pibe",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Armado cables datos robot mesero",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Recoger Stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Apertura puerta principal mando RF",a:"50%",f:"21 mar",e:"En curso",d:""},
-    {t:"Retiro piezas RD2 Pibe → conducción galpón",a:"20%",f:"21 mar",e:"En curso",d:""},
-    {t:"Prueba de Dron para video",a:"—",f:"21 mar",e:"En curso",d:""},
-  ],
-  "Abner":[
-    {t:"Verificar sistema Bounding (RD2 patrullero)",a:"100%",f:"16–20 mar",e:"Hecho",d:"Verificación y pruebas de enlaces."},
-    {t:"Verificar sistema Bounding (galpón)",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Recoger Stock Megacenter → Galpón",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Cambio interruptor dos posiciones totem",a:"100%",f:"21 mar",e:"Hecho",d:"Se cambió el interruptor dañado."},
-    {t:"Entrega 3 totems 15\" terminados",a:"20%",f:"21 mar",e:"En curso",d:"Total acumulado: 13 unidades Lote 2."},
-    {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso",d:""},
-  ],
-  "Octavio":[
-    {t:"Prueba 2 cajas de parlante JPAC2",a:"50%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Corte y diseño medidas luces RD2 policía",a:"70%",f:"18 mar",e:"Hecho",d:"Diseño y replicación de medidas."},
-    {t:"Diseño case USB para totem + impresión 3D",a:"100%",f:"—",e:"Hecho",d:"Diseñado e impreso para equipo totem."},
-    {t:"Diseño base luces policiales RD2",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño a cargo de Javier, grabado por Octavio."},
-    {t:"Impresión 3D cámara Intel RD2 (ABS)",a:"100%",f:"21 mar",e:"Hecho",d:"Para robot patrullero."},
-    {t:"Cortar diseño cuerpo JPAC2 para 3D",a:"40%",f:"21 mar",e:"En curso",d:"Se divide diseño para módulo de electrónica."},
-    {t:"Impresión 3D luces alarma RD2",a:"30%",f:"21 mar",e:"En curso",d:"Impresión ~7 hs (PLA)."},
-    {t:"Imprimir primeras piezas cuerpo JPAC2",a:"—",f:"21 mar",e:"Por hacer",d:""},
+    {t:"Soldadura SMD módulo control electrónica serbot01",          a:"100%",f:"6–10 abr",e:"Hecho"},
+    {t:"Instalación nuevo CASE control motor SERBOT 01",             a:"100%",f:"6–10 abr",e:"Hecho"},
   ],
   "Javier":[
-    {t:"Definir periféricos RD2 + diseño carcasas",a:"30%",f:"28 mar",e:"En curso",d:""},
-    {t:"Definir curvas pantalla Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño pedestal totem 15\" para exteriores",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Cortar fierros necesarios RD2 nuevo",a:"80%",f:"20 mar",e:"En curso",d:"Tubo principal RD2 cortado y soldado."},
-    {t:"Orejas de panda para Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño Totem 24\" para Termoformado",a:"100%",f:"21 mar",e:"Hecho",d:"Diseño terminado."},
-    {t:"Fabricación totem 24\" para termoformado",a:"70%",f:"28 mar",e:"En curso",d:""},
-    {t:"Corte MDF nuevas curvas cara Serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Diseño cliente grabado madera pino",a:"100%",f:"19 mar",e:"Hecho",d:"Diseño Javier, grabado Octavio."},
-    {t:"Soportes transformador 12V (×4)",a:"50%",f:"21 mar",e:"En curso",d:"Solicitud adicional del equipo Totem."},
+    {t:"Diseño totem recto metálico para pantalla 24\"",             a:"100%",f:"11 abr",  e:"Hecho"},
+    {t:"Diseño pedestal para totem recto metálico pantalla 24\"",    a:"100%",f:"11 abr",  e:"Hecho"},
+    {t:"Planos totem recto metálico para pantalla 24\"",             a:"100%",f:"11 abr",  e:"Hecho"},
+    {t:"Planos pedestal de totem recto metálico pantalla 24\"",      a:"100%",f:"11 abr",  e:"Hecho"},
   ],
   "Emanuel":[
-    {t:"Setup código RD2 conducción nueva",a:"100%",f:"16 mar",e:"Hecho",d:"Migrado de Arduino IDE a Express IDF (ESP32)."},
-    {t:"Odometría sin IMU",a:"85%",f:"20 mar",e:"En curso",d:"Robot mide distancia; falta calibración para evitar errores."},
-    {t:"Lectura datos Lidar (con José Jesus)",a:"100%",f:"16 mar",e:"Hecho",d:"Periféricos probados sin fallas."},
-    {t:"Odometría con IMU",a:"70%",f:"24 mar",e:"En curso",d:"Giro con IMU ok, pero queda en loop al detenerse."},
-    {t:"Conexiones STM para serbot 01",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Prueba periféricos en mesa (pines + PWM)",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Armado parlantes prueba Serbot01",a:"100%",f:"16 mar",e:"Hecho",d:"Setup de parlantes para pruebas de robots."},
-    {t:"Prueba movimiento motor RD2 (esp32)",a:"0%",f:"20 mar",e:"En curso",d:""},
-    {t:"Prueba Odometría IMU en Galpón",a:"20%",f:"26 mar",e:"En curso",d:""},
-  ],
-  "Ariel":[
-    {t:"10 totems 15\" entregados con soporte POS",a:"100%",f:"21 mar",e:"Hecho",d:"2 unidades en sem 3 para completar las 10."},
-    {t:"Gestión problemas totem 15\" Coffi",a:"80%",f:"21 mar",e:"En curso",d:"Cambio regulador voltaje pantalla y POS."},
-    {t:"Entrega primer totem Kioskbot",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Entrega 3 totems 15\" terminados",a:"20%",f:"21 mar",e:"En curso",d:"Total acumulado: 13 unidades Lote 2."},
-    {t:"Entrega 1 totem 24\" ID #002",a:"50%",f:"21 mar",e:"En curso",d:""},
-    {t:"Cambio interruptor dos posiciones totem",a:"100%",f:"21 mar",e:"Hecho",d:"Se cambió el interruptor dañado."},
-  ],
-  "Diogo":[
-    {t:"Actualizar pagos proyecto Fibra Rudy",a:"100%",f:"21 mar",e:"Hecho",d:"Informe actualizado presentado."},
-    {t:"Presentación caja chica Sem 3",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Corrección BD productos terminados",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Control de productos entregados",a:"80%",f:"21 mar",e:"En curso",d:"Subir archivos de productos entregados de la semana."},
-    {t:"Control ingreso insumos mayores Sem 3",a:"50%",f:"21 mar",e:"En curso",d:"Registrar PCs y movimiento stock china → galpón."},
-    {t:"Preparar pedidos grandes compra Yamil",a:"100%",f:"21 mar",e:"Hecho",d:""},
-    {t:"Ordenamiento Stock insumos por proyecto",a:"80%",f:"21 mar",e:"En curso",d:""},
-    {t:"Actualización justificaciones de personal",a:"80%",f:"21 mar",e:"En curso",d:""},
+    {t:"Arreglo de Kernel Nvidia Jetson",                            a:"100%",f:"10 abr",  e:"Hecho"},
   ],
 };
 
-const order = ["Mauricio","Pedro","Wilber","Cristian","Douglas","Ronny",
-               "Abner","Octavio","Javier","Emanuel","Ariel","Diogo"];
+// Planned tasks NOT in Notion (from PDF), keyed by person
+const plannedOnly = {
+  "Wilber":[
+    "Cortar plastofores a medida para 10 totems",
+    "Realizar orificios para motores en 5 chasis serbot 01",
+    "ARMADO DE CHASIS CON TIJERALES, AMORTIGUADORES Y MOTORES",
+  ],
+  "Cristian":[
+    "Cableado de control a 5 serbots 01",
+    "Cableado de potencia de 5 serbot 01",
+    "Montaje de electrónica de potencia a 10 meseros",
+    "Montaje electrónica JPac1",  // wait — already has 2 notion tasks, 4 planned. 2 missing:
+  ],
+  "Javier":[
+    "10 case de hub usb de 4 salidas",
+    "13 Pares de topes de POS Bolivia",
+    "13 planchas de soporte de computadora",
+    "13 soportes de cargadores de 12V",
+    "Definir nueva chapa para totems, cotización y soporte",
+    "Mantenimiento de impresoras 3D",
+    "Diseño de periféricos de RD2: GPS",
+    "Diseño de periféricos de RD2: Luz delantera",
+    "Impresión y prueba de periféricos para RD2: Luz delantera",
+  ],
+  "Emanuel":[
+    "Prueba DAC acelerador",
+    "Prueba de RD2 por computadora",
+    "Prueba de Odometría con IMU en Galpón para ajustar valores",
+    "Pruebas finales conducción Serbot01 con Odometría",
+    "Setup de comando para implementar conducción con mando",
+  ],
+  "Diogo":[
+    "Actualización de justificaciones de personal",
+    "Actualizar documento de pagos de Rudy Ribera",
+    "Diseño y creación de stickers para tótems 15\" código 37 a 60",
+    "Enviar solicitud de pago a proveedores a Yamil Sem6 Abril",
+    "Llenar la base de datos de proyectos de Notion",
+    "Presentación de Caja Chica semana 6 Abril",
+    "Presentar documentos de productos terminados y ordenar los datos",
+  ],
+  "Douglas":[
+    "Encargar luces para robots con proveedor local",
+    "Enviar reporte de tareas terminadas de Sem5 Abril",
+    "Presentar documentos de productos terminados y ordenar los datos",
+    "Realizar compromiso de tareas semanal SEM6 Abril",
+    "Conseguir sistema para inventario de GSA",
+    "Replicar conexiones de RD2 policía con mando RC para Somoneitor",
+  ],
+  "Pedro":[
+    "Asignación de pines",
+    "Lectura del sensor de corriente",
+    "Lectura del sensor de voltaje",
+    "Pruebas comunicación",
+    "Pruebas y Validación - Shield STM32",
+    "Rehacer placa PCB de STM para Serbot 01 con método de pintura y laser",
+  ],
+  "Ronny":[
+    "Cableado de control a 5 serbots 01",
+    "Cableado de potencia de 5 serbot 01",
+  ],
+  "Ariel":[
+    "Entrega de 1 totem de 24\" ID #002",
+    "Entrega de 1 totem de 24\" ID003",
+    "Entrega de 1 totem de 24\" ID004",
+    "Entrega de 1 totem de 24\" ID005",
+    "Entrega de 10 totems lote Marzo",
+  ],
+  "Abner":[
+    "Entrega de 1 totem de 24\" ID #002",
+    "Entrega de 1 totem de 24\" ID003",
+    "Entrega de 1 totem de 24\" ID004",
+    "Entrega de 1 totem de 24\" ID005",
+    "Entrega de 10 totems lote Marzo",
+  ],
+  "Octavio":[
+    "10 case de hub usb de 4 salidas",
+    "13 Pares de topes de POS Bolivia",
+    "13 planchas de soporte de computadora",
+    "13 soportes de cargadores de 12V",
+    "Diseño de luces para el jpac1",
+    "Diseño de puerta para jpac1",
+    "Impresión 3D para don rudy de los voladizos",
+    "Impresión del jpac2, 4 partes (molde de electrónica)",
+    "Prueba de sistema de puerta para el jpac2",
+    "Mantenimiento de impresoras 3D",
+    "Corte de 3 acrílicos con medidas distintas para el nuevo fibrero",
+    "Rehacer placa PCB de STM para Serbot 01 con método de pintura y laser",
+  ],
+  "Mauricio":[
+    "10 case de hub usb de 4 salidas",
+    "13 Pares de topes de POS Bolivia",
+    "13 planchas de soporte de computadora",
+    "13 soportes de cargadores de 12V",
+    "Cable canales totem 24\"",
+    "Case de controlador y tapa (Embebidos)",
+    "Case de cámara para los costados",
+    "Diseño de luces para el jpac1",
+    "Soporte trasero para jpac1 (Periférico)",
+    "Mantenimiento de impresoras 3D",
+  ],
+};
 
 const avatarColors=[
   {bg:'#E6F1FB',fg:'#185FA5'},{bg:'#EAF3DE',fg:'#3B6D11'},{bg:'#FAEEDA',fg:'#854F0B'},
@@ -500,60 +410,73 @@ const avatarColors=[
   {bg:'#FAECE7',fg:'#993C1D'},{bg:'#EEEDFE',fg:'#534AB7'},{bg:'#FAC775',fg:'#633806'},
   {bg:'#C0DD97',fg:'#3B6D11'},{bg:'#B5D4F4',fg:'#0C447C'},{bg:'#F1EFE8',fg:'#5F5E5A'},
 ];
-const stateColor = {Hecho:'#639922','En curso':'#BA7517','Por hacer':'#E24B4A'};
-const stateBg    = {Hecho:'#EAF3DE','En curso':'#FAEEDA','Por hacer':'#FCEBEB'};
-const stateFg    = {Hecho:'#3B6D11','En curso':'#854F0B','Por hacer':'#A32D2D'};
 
-function barColor(p){return p>=80?'#639922':p>=50?'#BA7517':'#E24B4A';}
-function pctBadge(p){return p>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:p>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};}
+function barColor(p){ return p>=80?'#639922':p>=50?'#BA7517':'#E24B4A'; }
+function coverageBadge(pct){
+  return pct>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:pct>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};
+}
 
-/* ── summary table ── */
+/* ── SUMMARY TABLE ── */
 const tbody = document.getElementById('summaryBody');
 summary.forEach(p => {
-  const pct = Math.round(p.comp/p.total*100);
+  const sinReg = p.planned - p.notion;
+  const coverage = Math.round(p.notion / p.planned * 100);
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td style="font-weight:700">${p.name}</td>
-    <td style="text-align:center">${p.total}</td>
-    <td style="text-align:center"><span class="badge bg-green">${p.comp}</span></td>
-    <td style="text-align:center"><span class="badge bg-amber">${p.proc}</span></td>
-    <td style="text-align:center"><span class="badge ${p.noinit>0?'bg-red':'bg-gray'}">${p.noinit}</span></td>
+    <td style="text-align:center">${p.planned}</td>
+    <td style="text-align:center"><span class="badge ${p.notion>0?'bg-green':'bg-gray'}">${p.notion}</span></td>
+    <td style="text-align:center"><span class="badge ${p.comp>0?'bg-green':'bg-gray'}">${p.comp}</span></td>
+    <td style="text-align:center"><span class="badge ${sinReg>0?'bg-yellow':'bg-gray'}">${sinReg}</span></td>
     <td><div class="bar-wrap">
-      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
-      <span class="bar-pct">${pct}%</span>
+      <div class="bar-bg"><div class="bar-fill" style="width:${coverage}%;background:${barColor(coverage)};"></div></div>
+      <span class="bar-pct">${coverage}%</span>
     </div></td>`;
   tbody.appendChild(tr);
 });
 
-/* ── mobile cards ── */
+/* ── MOBILE CARDS ── */
 const cardsEl = document.getElementById('summaryCards');
 summary.forEach(p => {
-  const pct = Math.round(p.comp/p.total*100), pc = pctBadge(pct);
+  const coverage = Math.round(p.notion/p.planned*100);
+  const pc = coverageBadge(coverage);
   const div = document.createElement('div'); div.className='sc-item';
   div.innerHTML = `
-    <div class="sc-top"><span class="sc-name">${p.name}</span>
-      <span class="sc-pct" style="background:${pc.bg};color:${pc.fg};">${pct}%</span></div>
+    <div class="sc-top">
+      <span class="sc-name">${p.name}</span>
+      <span class="sc-pct" style="background:${pc.bg};color:${pc.fg};">${coverage}%</span>
+    </div>
     <div class="sc-pills">
-      <span class="sc-pill bg-gray"><span>Total</span>${p.total}</span>
-      <span class="sc-pill bg-green"><span>Comp.</span>${p.comp}</span>
-      <span class="sc-pill bg-amber"><span>En proc.</span>${p.proc}</span>
-      ${p.noinit>0?`<span class="sc-pill bg-red"><span>No inic.</span>${p.noinit}</span>`:''}
+      <span class="sc-pill bg-gray"><span>Plan</span>${p.planned}</span>
+      <span class="sc-pill ${p.notion>0?'bg-green':'bg-gray'}"><span>Notion</span>${p.notion}</span>
+      <span class="sc-pill ${p.comp>0?'bg-green':'bg-gray'}"><span>Comp.</span>${p.comp}</span>
+      ${(p.planned-p.notion)>0?`<span class="sc-pill bg-yellow"><span>Sin reg.</span>${p.planned-p.notion}</span>`:''}
     </div>
     <div class="sc-bar-wrap">
-      <div class="sc-bar-bg"><div class="sc-bar-fill" style="width:${pct}%;background:${barColor(pct)};"></div></div>
-      <span style="font-size:11px;font-weight:700;color:#6b6b67;min-width:30px;text-align:right;">${pct}%</span>
+      <div class="sc-bar-bg"><div class="sc-bar-fill" style="width:${coverage}%;background:${barColor(coverage)};"></div></div>
+      <span style="font-size:11px;font-weight:700;color:#6b6b67;min-width:30px;text-align:right;">${coverage}%</span>
     </div>`;
   cardsEl.appendChild(div);
 });
 
-/* ── detail blocks ── */
+/* ── DETAIL BLOCKS ── */
+const stateColor = {Hecho:'#639922','En curso':'#BA7517','Por hacer':'#E24B4A','Atorado':'#993C1D','Pausado':'#534AB7'};
+const stateBg    = {Hecho:'#EAF3DE','En curso':'#FAEEDA','Por hacer':'#FCEBEB','Atorado':'#FDEEDD','Pausado':'#EEEDFE'};
+const stateFg    = {Hecho:'#3B6D11','En curso':'#854F0B','Por hacer':'#A32D2D','Atorado':'#993C1D','Pausado':'#534AB7'};
+
+const ORDER = summary.map(p=>p.name);
 const grid = document.getElementById('detailGrid');
-order.forEach((name, idx) => {
-  const tasks = detail[name] || [];
-  const s   = summary.find(x => x.name === name);
-  const pct = s ? Math.round(s.comp/s.total*100) : 0;
-  const av  = avatarColors[idx % avatarColors.length];
-  const pc  = pct>=80?{bg:'#EAF3DE',fg:'#3B6D11'}:pct>=50?{bg:'#FAEEDA',fg:'#854F0B'}:{bg:'#FCEBEB',fg:'#A32D2D'};
+
+ORDER.forEach((name, idx) => {
+  const notion = notionTasks[name] || [];
+  const planned = plannedOnly[name] || [];
+  const s = summary.find(x=>x.name===name);
+  const coverage = s ? Math.round(s.notion/s.planned*100) : 0;
+  const av = avatarColors[idx % avatarColors.length];
+  const pc = coverage>=80?{bg:'#EAF3DE',fg:'#3B6D11'}
+           : coverage>=50?{bg:'#FAEEDA',fg:'#854F0B'}
+           :               {bg:'#FCEBEB',fg:'#A32D2D'};
+  const hasNotion = notion.length > 0;
 
   const block = document.createElement('div');
   block.className = 'person-block';
@@ -563,39 +486,46 @@ order.forEach((name, idx) => {
         <div class="person-avatar" style="background:${av.bg};color:${av.fg};">${name.slice(0,2).toUpperCase()}</div>
         ${name}
       </div>
-      <span class="person-pct-badge" style="background:${pc.bg};color:${pc.fg};">${pct}%</span>
+      ${hasNotion
+        ? `<span class="person-pct-badge" style="background:${pc.bg};color:${pc.fg};">${coverage}% cobertura</span>`
+        : `<span class="person-no-notion">Sin registro Notion</span>`}
     </div>
     <ul class="task-list" id="tl-${name}"></ul>`;
   grid.appendChild(block);
 
   const ul = block.querySelector(`#tl-${name}`);
-  tasks.forEach(tk => {
+
+  // Notion tasks first (with actual data)
+  notion.forEach(tk => {
     const dot = stateColor[tk.e] || '#9b9b97';
-    const li  = document.createElement('li'); li.className = 'task-item';
+    const li = document.createElement('li'); li.className='task-item';
     li.innerHTML = `
       <div class="task-dot" style="background:${dot};"></div>
       <div class="task-body">
-        <div class="task-name ${tk.e==='Hecho'?'done':''}">${tk.t}</div>
+        <div class="task-name done">${tk.t}</div>
         <div class="task-meta">
           <span class="task-avance" style="color:${dot};">${tk.a}</span>
-          ${tk.f ? `<span class="task-fecha">· ${tk.f}</span>` : ''}
-          <span class="task-state-badge" style="background:${stateBg[tk.e]||'#F1EFE8'};color:${stateFg[tk.e]||'#5F5E5A'};">${tk.e}</span>
+          ${tk.f?`<span class="task-fecha">· ${tk.f}</span>`:''}
+          <span class="task-state-badge" style="background:${stateBg[tk.e]||'#EAF3DE'};color:${stateFg[tk.e]||'#3B6D11'};">${tk.e}</span>
         </div>
-        ${tk.d ? `<div class="task-detalle">${tk.d}</div>` : ''}
+      </div>`;
+    ul.appendChild(li);
+  });
+
+  // Planned-only tasks (not in Notion)
+  planned.forEach(t => {
+    const li = document.createElement('li'); li.className='task-item planned';
+    li.innerHTML = `
+      <div class="task-dot" style="background:#D4A800;"></div>
+      <div class="task-body">
+        <div class="task-name unregistered">${t}</div>
+        <div class="task-meta">
+          <span class="task-state-badge" style="background:#FFF3CD;color:#6b4000;">Sin registro</span>
+        </div>
       </div>`;
     ul.appendChild(li);
   });
 });
-
-/* ═══════════════════════════════════════
-   PDF EXPORT via window.print()
-   The browser "Print → Save as PDF" dialog
-   renders @media print CSS perfectly —
-   no libraries, no canvas, no blank pages.
-═══════════════════════════════════════ */
-function exportPDF() {
-  window.print();
-}
 </script>
 </body>
 </html>
